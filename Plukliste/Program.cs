@@ -1,14 +1,10 @@
-﻿//Eksempel på funktionel kodning hvor der kun bliver brugt et model lag
-namespace Plukliste;
+﻿namespace Plukliste;
 
 class PluklisteProgram { 
 
     static void Main()
     {
-        //Arrange
-        char readKey = ' ';
-        List<string> files;
-        var index = -1;
+
         var standardColor = Console.ForegroundColor;
         Directory.CreateDirectory("import");
 
@@ -18,15 +14,17 @@ class PluklisteProgram {
             Console.ReadLine();
             return;
         }
-        files = Directory.EnumerateFiles("export").ToList();
+
+        List<string> files = Directory.EnumerateFiles("export").ToList();
 
         //ACT
+        char readKey = ' ';
+        var index = -1;
         while (readKey != 'Q')
         {
             if (files.Count == 0)
             {
                 Console.WriteLine("No files found.");
-
             }
             else
             {
@@ -37,8 +35,7 @@ class PluklisteProgram {
 
                 //read file
                 FileStream file = File.OpenRead(files[index]);
-                System.Xml.Serialization.XmlSerializer xmlSerializer =
-                    new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
+                System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
                 var plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
 
                 //print plukliste
@@ -56,7 +53,6 @@ class PluklisteProgram {
                 }
                 file.Close();
             }
-
             //Print options
             Console.WriteLine("\n\nOptions:");
             Console.ForegroundColor = ConsoleColor.Green;
@@ -89,25 +85,24 @@ class PluklisteProgram {
             Console.ForegroundColor = standardColor;
             Console.WriteLine("enindlæs pluksedler");
 
-            readKey = Console.ReadKey().KeyChar;
-            if (readKey >= 'a') readKey -= (char)('a' - 'A'); //HACK: To upper
+            readKey = Console.ReadKey().KeyChar
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.Red; //status in red
-            switch (readKey)
+            switch ( Char.ToLower(readKey))
             {
-                case 'G':
+                case 'g':
                     files = Directory.EnumerateFiles("export").ToList();
                     index = -1;
                     Console.WriteLine("Pluklister genindlæst");
                     break;
-                case 'F':
+                case 'f':
                     if (index > 0) index--;
                     break;
-                case 'N':
+                case 'n':
                     if (index < files.Count - 1) index++;
                     break;
-                case 'A':
+                case 'a':
                     //Move files to import directory
                     var filewithoutPath = files[index].Substring(files[index].LastIndexOf('\\'));
                     File.Move(files[index], string.Format(@"import\\{0}", filewithoutPath));
@@ -117,7 +112,6 @@ class PluklisteProgram {
                     break;
             }
             Console.ForegroundColor = standardColor; //reset color
-
         }
     }
 }
