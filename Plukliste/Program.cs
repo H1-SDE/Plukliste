@@ -31,7 +31,7 @@ class PluklisteProgram {
             else
             {
                 if (index == -1) index = 0;
-                index = index == -1 ? 0 : index ;
+                index = index == -1 ? 0 : index;
 
                 Console.WriteLine($"Plukliste {index + 1} af {files.Count}");
                 Console.WriteLine($"\nfile: {files[index]}");
