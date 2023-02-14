@@ -2,7 +2,7 @@
 
 class PluklisteProgram {
 
-    public static ConsoleColor standardColor = Console.ForegroundColor;
+    public static ConsoleColor standardColor = ConsoleColor.White;
 
     static void Main()
     {
@@ -11,9 +11,8 @@ class PluklisteProgram {
 
         if (!Directory.Exists("export"))
         {
-            Console.WriteLine("Directory \"export\" not found");
-            Console.ReadLine();
-            return;
+            Directory.CreateDirectory("export");
+            Console.WriteLine("created a export directory");
         }
 
         List<string> files = Directory.EnumerateFiles("export").ToList();
@@ -22,7 +21,7 @@ class PluklisteProgram {
         var index = -1;
         while (readKey != 'Q')
         {
-            if (files.Count == 0)
+            if (files.Count != 0)
             {
                 Console.WriteLine("No files found.");
             }
