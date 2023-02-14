@@ -2,8 +2,6 @@
 
 class PluklisteProgram {
 
-    public static ConsoleColor standardColor = ConsoleColor.White;
-
     static void Main()
     {
         Directory.CreateDirectory("import");
@@ -16,7 +14,7 @@ class PluklisteProgram {
         List<string> files = Directory.EnumerateFiles("export").ToList();
 
         char readKey = ' ';
-        var index = -1;
+        var currentFileIndex = -1;
         while (Char.ToUpper(readKey) != 'Q')
         {
             if (files.Count == 0)
@@ -25,70 +23,85 @@ class PluklisteProgram {
             }
             else
             {
-                if (index == -1) index = 0;
-                Console.WriteLine($"Plukliste {index + 1} af {files.Count}");
-                Console.WriteLine($"\nfile: {files[index]}");
-
-                FileStream file = File.OpenRead(files[index]);
-                System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
-                var plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
-
-                if (plukliste != null && plukliste.Lines != null)
-                {
-                    Console.WriteLine("\n{0,-13 }{1}", "Name:", plukliste.Name);
-                    Console.WriteLine("{0,-13 }{1}", "Forsendelse:", plukliste.Forsendelse);
-                    Console.WriteLine("{0,-13 }{1}", "Adresse:", plukliste.Adresse);
-
-                    Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
-                    foreach (var item in plukliste.Lines)
-                    {
-                        Console.WriteLine("{0,-7}{1,-9}{2,-20}{3}", item.Amount, item.Type, item.ProductID, item.Title);
-                    }
-                }
+                if (currentFileIndex == -1) currentFileIndex = 0;
+                Pluklist plukliste = FromXml(currentFileIndex, files).Item1;
+                FileStream file = FromXml(currentFileIndex, files).Item2;
+                PrintPlukliste(plukliste);
                 file.Close();
             }
             Console.WriteLine("\n\nOptions:");
 
-            _printOptions("Q", "uit");
-            if (index >= 0) _printOptions("A", "fslut plukseddel");
-            if (index > 0) _printOptions("F", "orrige plukseddel");
-            if (index < files.Count - 1) _printOptions("N", "æste plukseddel");
-            _printOptions("G", "enindlæs pluksedler");
+            PrintOptions("Q", "uit");
+            if (currentFileIndex >= 0) PrintOptions("A", "fslut plukseddel");
+            if (currentFileIndex > 0) PrintOptions("F", "orrige plukseddel");
+            if (currentFileIndex < files.Count - 1) PrintOptions("N", "æste plukseddel");
+            PrintOptions("G", "enindlæs pluksedler");
 
             readKey = Console.ReadKey().KeyChar;
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            switch ( Char.ToUpper(readKey))
-            {
-                case 'G':
-                    files = Directory.EnumerateFiles("export").ToList();
-                    index = -1;
-                    Console.WriteLine("Pluklister genindlæst");
-                    break;
-                case 'F':
-                    if (index > 0) index--;
-                    break;
-                case 'N':
-                    if (index < files.Count - 1) index++;
-                    break;
-                case 'A':
-                    var filewithoutPath = files[index].Substring(files[index].LastIndexOf('\\'));
-                    File.Move(files[index], string.Format(@"import\\{0}", filewithoutPath));
-                    Console.WriteLine($"Plukseddel {files[index]} afsluttet.");
-                    files.Remove(files[index]);
-                    if (index == files.Count) index--;
-                    break;
-            }
-            Console.ForegroundColor = standardColor;
+            SwitchCase(ref files, Char.ToUpper(readKey), ref currentFileIndex);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 
-    private static void _printOptions(string option, string funtion)
+    private static void PrintPlukliste(Pluklist plukliste)
+    {
+        if (plukliste != null && plukliste.Lines != null)
+        {
+            Console.WriteLine("\n{0,-13 }{1}", "Name:", plukliste.Name);
+            Console.WriteLine("{0,-13 }{1}", "Forsendelse:", plukliste.Forsendelse);
+            Console.WriteLine("{0,-13 }{1}", "Adresse:", plukliste.Adresse);
+
+            Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
+            foreach (var item in plukliste.Lines)
+            {
+                Console.WriteLine("{0,-7}{1,-9}{2,-20}{3}", item.Amount, item.Type, item.ProductID, item.Title);
+            }
+        }
+    }
+
+    private static void PrintOptions(string option, string funtion)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write(option);
-        Console.ForegroundColor = standardColor;
+        Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine(funtion);
+    }
+
+    private static (Pluklist, FileStream) FromXml(int currentFileIndex, List<string> files)
+    {
+        Console.WriteLine($"Plukliste {currentFileIndex + 1} af {files.Count}");
+        Console.WriteLine($"\nfile: {files[currentFileIndex]}");
+
+        FileStream file = File.OpenRead(files[currentFileIndex]);
+        System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
+        return ((Pluklist?)xmlSerializer.Deserialize(file), file);
+    }
+
+    private static void SwitchCase(ref List<string> files, char readKey, ref int currentFileIndex)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        switch (readKey)
+        {
+            case 'G':
+                files = Directory.EnumerateFiles("export").ToList();
+                currentFileIndex = -1;
+                Console.WriteLine("Pluklister genindlæst");
+                break;
+            case 'F':
+                if (currentFileIndex > 0) currentFileIndex--;
+                break;
+            case 'N':
+                if (currentFileIndex < files.Count - 1) currentFileIndex++;
+                break;
+            case 'A':
+                var filewithoutPath = files[currentFileIndex].Substring(files[currentFileIndex].LastIndexOf('\\'));
+                File.Move(files[currentFileIndex], string.Format(@"import\\{0}", filewithoutPath));
+                Console.WriteLine($"Plukseddel {files[currentFileIndex]} afsluttet.");
+                files.Remove(files[currentFileIndex]);
+                if (currentFileIndex == files.Count) currentFileIndex--;
+                break;
+        }
     }
 }
