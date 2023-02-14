@@ -6,7 +6,6 @@ class PluklisteProgram {
 
     static void Main()
     {
-
         Directory.CreateDirectory("import");
 
         if (!Directory.Exists("export"))
@@ -14,14 +13,13 @@ class PluklisteProgram {
             Directory.CreateDirectory("export");
             Console.WriteLine("created a export directory");
         }
-
         List<string> files = Directory.EnumerateFiles("export").ToList();
 
         char readKey = ' ';
         var index = -1;
-        while (readKey != 'Q')
+        while (Char.ToUpper(readKey) != 'Q')
         {
-            if (files.Count != 0)
+            if (files.Count == 0)
             {
                 Console.WriteLine("No files found.");
             }
@@ -37,9 +35,9 @@ class PluklisteProgram {
 
                 if (plukliste != null && plukliste.Lines != null)
                 {
-                    Console.WriteLine("\n{0, -13}{1}", "Name:", plukliste.Name);
-                    Console.WriteLine("{0, -13}{1}", "Forsendelse:", plukliste.Forsendelse);
-                    Console.WriteLine("{0, -13}{1}", "Adresse:", plukliste.Adresse);
+                    Console.WriteLine("\n{0,-13 }{1}", "Name:", plukliste.Name);
+                    Console.WriteLine("{0,-13 }{1}", "Forsendelse:", plukliste.Forsendelse);
+                    Console.WriteLine("{0,-13 }{1}", "Adresse:", plukliste.Adresse);
 
                     Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
                     foreach (var item in plukliste.Lines)
