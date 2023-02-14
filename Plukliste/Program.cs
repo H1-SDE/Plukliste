@@ -7,7 +7,6 @@ class PluklisteProgram {
     static void Main()
     {
 
-        
         Directory.CreateDirectory("import");
 
         if (!Directory.Exists("export"))
@@ -19,7 +18,6 @@ class PluklisteProgram {
 
         List<string> files = Directory.EnumerateFiles("export").ToList();
 
-        //ACT
         char readKey = ' ';
         var index = -1;
         while (readKey != 'Q')
@@ -30,23 +28,19 @@ class PluklisteProgram {
             }
             else
             {
-                
-                index = index == -1 ? 0 : index;
-
+                if (index == -1) index = 0;
                 Console.WriteLine($"Plukliste {index + 1} af {files.Count}");
                 Console.WriteLine($"\nfile: {files[index]}");
 
-                //read file
                 FileStream file = File.OpenRead(files[index]);
                 System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
                 var plukliste = (Pluklist?)xmlSerializer.Deserialize(file);
 
-                //print plukliste
                 if (plukliste != null && plukliste.Lines != null)
                 {
                     Console.WriteLine("\n{0, -13}{1}", "Name:", plukliste.Name);
                     Console.WriteLine("{0, -13}{1}", "Forsendelse:", plukliste.Forsendelse);
-                    //TODO: Add adresse to screen print
+                    Console.WriteLine("{0, -13}{1}", "Adresse:", plukliste.Adresse);
 
                     Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
                     foreach (var item in plukliste.Lines)
@@ -56,7 +50,6 @@ class PluklisteProgram {
                 }
                 file.Close();
             }
-            //Print options
             Console.WriteLine("\n\nOptions:");
 
             _printOptions("Q", "uit");
@@ -68,22 +61,21 @@ class PluklisteProgram {
             readKey = Console.ReadKey().KeyChar;
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.Red; //status in red
-            switch ( Char.ToLower(readKey))
+            Console.ForegroundColor = ConsoleColor.Red;
+            switch ( Char.ToUpper(readKey))
             {
-                case 'g':
+                case 'G':
                     files = Directory.EnumerateFiles("export").ToList();
                     index = -1;
                     Console.WriteLine("Pluklister genindlæst");
                     break;
-                case 'f':
+                case 'F':
                     if (index > 0) index--;
                     break;
-                case 'n':
+                case 'N':
                     if (index < files.Count - 1) index++;
                     break;
-                case 'a':
-                    //Move files to import directory
+                case 'A':
                     var filewithoutPath = files[index].Substring(files[index].LastIndexOf('\\'));
                     File.Move(files[index], string.Format(@"import\\{0}", filewithoutPath));
                     Console.WriteLine($"Plukseddel {files[index]} afsluttet.");
@@ -91,9 +83,10 @@ class PluklisteProgram {
                     if (index == files.Count) index--;
                     break;
             }
-            Console.ForegroundColor = standardColor; //reset color
+            Console.ForegroundColor = standardColor;
         }
     }
+
     private static void _printOptions(string option, string funtion)
     {
         Console.ForegroundColor = ConsoleColor.Green;
