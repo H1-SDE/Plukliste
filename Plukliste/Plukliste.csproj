@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="export\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
 
   <ItemGroup>
