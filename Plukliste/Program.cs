@@ -2,6 +2,8 @@
 
 class PluklisteProgram {
 
+    public static char readKey = ' ';
+
     static void Main()
     {
         Directory.CreateDirectory("import");
@@ -13,13 +15,7 @@ class PluklisteProgram {
         }
         List<string> files = Directory.EnumerateFiles("export").ToList();
 
-        char readKey = ' ';
         var currentFileIndex = -1;
-        MainProgram(ref files, ref readKey, ref currentFileIndex);
-    }
-
-    private static void MainProgram(ref List<string> files, ref char readKey, ref int currentFileIndex)
-    {
         while (Char.ToUpper(readKey) != 'Q')
         {
             if (files.Count == 0)
@@ -29,9 +25,11 @@ class PluklisteProgram {
             else
             {
                 if (currentFileIndex == -1) currentFileIndex = 0;
-                Pluklist plukliste = FromXml(currentFileIndex, files).Item1;
+                Pluklist plukListe = FromXml(currentFileIndex, files).Item1;
                 FileStream file = FromXml(currentFileIndex, files).Item2;
-                PrintPlukliste(plukliste);
+                Console.WriteLine($"Plukliste {currentFileIndex + 1} af {files.Count}");
+                Console.WriteLine($"\nfile: {files[currentFileIndex]}");
+                PrintPlukliste(plukListe);
                 file.Close();
             }
             Console.WriteLine("\n\nOptions:");
@@ -42,10 +40,7 @@ class PluklisteProgram {
             if (currentFileIndex < files.Count - 1) PrintOptions("N", "æste plukseddel");
             PrintOptions("G", "enindlæs pluksedler");
 
-            readKey = Console.ReadKey().KeyChar;
-            Console.Clear();
-
-            SwitchCase(ref files, Char.ToUpper(readKey), ref currentFileIndex);
+            SwitchCase(ref files, ref currentFileIndex);
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
@@ -76,18 +71,18 @@ class PluklisteProgram {
 
     private static (Pluklist, FileStream) FromXml(int currentFileIndex, List<string> files)
     {
-        Console.WriteLine($"Plukliste {currentFileIndex + 1} af {files.Count}");
-        Console.WriteLine($"\nfile: {files[currentFileIndex]}");
 
         FileStream file = File.OpenRead(files[currentFileIndex]);
         System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
         return ((Pluklist?)xmlSerializer.Deserialize(file), file);
     }
 
-    private static void SwitchCase(ref List<string> files, char readKey, ref int currentFileIndex)
+    private static void SwitchCase(ref List<string> files, ref int currentFileIndex)
     {
+        readKey = Console.ReadKey().KeyChar;
+        Console.Clear();
         Console.ForegroundColor = ConsoleColor.Red;
-        switch (readKey)
+        switch (Char.ToUpper(readKey))
         {
             case 'G':
                 files = Directory.EnumerateFiles("export").ToList();
