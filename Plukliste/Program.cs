@@ -1,11 +1,13 @@
 ﻿namespace Plukliste;
 
-class PluklisteProgram { 
+class PluklisteProgram {
+
+    public static ConsoleColor standardColor = Console.ForegroundColor;
 
     static void Main()
     {
 
-        var standardColor = Console.ForegroundColor;
+        
         Directory.CreateDirectory("import");
 
         if (!Directory.Exists("export"))
@@ -55,37 +57,22 @@ class PluklisteProgram {
             }
             //Print options
             Console.WriteLine("\n\nOptions:");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("Q");
-            Console.ForegroundColor = standardColor;
-            Console.WriteLine("uit");
+            _printOptions("Q", "uit");
             if (index >= 0)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("A");
-                Console.ForegroundColor = standardColor;
-                Console.WriteLine("fslut plukseddel");
+                _printOptions("A", "fslut plukseddel");
             }
             if (index > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("F");
-                Console.ForegroundColor = standardColor;
-                Console.WriteLine("orrige plukseddel");
+                _printOptions("F", "orrige plukseddel");
             }
             if (index < files.Count - 1)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("N");
-                Console.ForegroundColor = standardColor;
-                Console.WriteLine("æste plukseddel");
+                _printOptions("N", "æste plukseddel");
             }
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("G");
-            Console.ForegroundColor = standardColor;
-            Console.WriteLine("enindlæs pluksedler");
+            _printOptions("G", "enindlæs pluksedler");
 
-            readKey = Console.ReadKey().KeyChar
+            readKey = Console.ReadKey().KeyChar;
             Console.Clear();
 
             Console.ForegroundColor = ConsoleColor.Red; //status in red
@@ -113,5 +100,13 @@ class PluklisteProgram {
             }
             Console.ForegroundColor = standardColor; //reset color
         }
+    }
+
+    private static void _printOptions(string option, string funtion)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write(option);
+        Console.ForegroundColor = standardColor;
+        Console.WriteLine(funtion);
     }
 }
