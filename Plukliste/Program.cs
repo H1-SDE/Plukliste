@@ -31,6 +31,7 @@ class PluklisteProgram {
             else
             {
                 if (index == -1) index = 0;
+                index = index == -1 ? 0 : index ;
 
                 Console.WriteLine($"Plukliste {index + 1} af {files.Count}");
                 Console.WriteLine($"\nfile: {files[index]}");
@@ -57,19 +58,11 @@ class PluklisteProgram {
             }
             //Print options
             Console.WriteLine("\n\nOptions:");
+
             _printOptions("Q", "uit");
-            if (index >= 0)
-            {
-                _printOptions("A", "fslut plukseddel");
-            }
-            if (index > 0)
-            {
-                _printOptions("F", "orrige plukseddel");
-            }
-            if (index < files.Count - 1)
-            {
-                _printOptions("N", "æste plukseddel");
-            }
+            if (index >= 0) _printOptions("A", "fslut plukseddel");
+            if (index > 0) _printOptions("F", "orrige plukseddel");
+            if (index < files.Count - 1) _printOptions("N", "æste plukseddel");
             _printOptions("G", "enindlæs pluksedler");
 
             readKey = Console.ReadKey().KeyChar;
@@ -101,7 +94,6 @@ class PluklisteProgram {
             Console.ForegroundColor = standardColor; //reset color
         }
     }
-
     private static void _printOptions(string option, string funtion)
     {
         Console.ForegroundColor = ConsoleColor.Green;
