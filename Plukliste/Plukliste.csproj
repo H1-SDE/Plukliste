@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Folder Include="export\" />
-    <Folder Include="NewFolder1\" />
+    <Folder Include="templates\" />
   </ItemGroup>
 
   <ItemGroup>
