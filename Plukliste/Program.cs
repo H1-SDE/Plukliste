@@ -25,8 +25,9 @@ class PluklisteProgram {
             else
             {
                 if (currentFileIndex == -1) currentFileIndex = 0;
-                Pluklist plukListe = FromXml(currentFileIndex, files).Item1;
-                FileStream file = FromXml(currentFileIndex, files).Item2;
+                FileStream file = File.OpenRead(files[currentFileIndex]);
+                System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
+                Pluklist plukListe = (Pluklist?)xmlSerializer.Deserialize(file);
                 Console.WriteLine($"Plukliste {currentFileIndex + 1} af {files.Count}");
                 Console.WriteLine($"\nfile: {files[currentFileIndex]}");
                 PrintPlukliste(plukListe);
@@ -67,14 +68,6 @@ class PluklisteProgram {
         Console.Write(option);
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine(funtion);
-    }
-
-    private static (Pluklist, FileStream) FromXml(int currentFileIndex, List<string> files)
-    {
-
-        FileStream file = File.OpenRead(files[currentFileIndex]);
-        System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
-        return ((Pluklist?)xmlSerializer.Deserialize(file), file);
     }
 
     private static void SwitchCase(ref List<string> files, ref int currentFileIndex)
