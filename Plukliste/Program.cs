@@ -15,6 +15,11 @@ class PluklisteProgram {
 
         char readKey = ' ';
         var currentFileIndex = -1;
+        MainProgram(ref files, ref readKey, ref currentFileIndex);
+    }
+
+    private static void MainProgram(ref List<string> files, ref char readKey, ref int currentFileIndex)
+    {
         while (Char.ToUpper(readKey) != 'Q')
         {
             if (files.Count == 0)
