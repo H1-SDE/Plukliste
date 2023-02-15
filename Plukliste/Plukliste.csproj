@@ -9,8 +9,12 @@
 
   <ItemGroup>
     <Folder Include="export\" />
-    <Folder Include="templates\NewFolder\" />
-    <Folder Include="templates\templates\" />
+    <Folder Include="templates" />
+    <Folder Include="print\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspose.HTML" Version="23.2.0" />
   </ItemGroup>
 
   <ItemGroup>

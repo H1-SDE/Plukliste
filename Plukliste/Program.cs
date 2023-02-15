@@ -45,14 +45,13 @@ class PluklisteProgram {
             if (currentFileIndex > 0) PrintOptions("F", "orrige plukseddel");
             if (currentFileIndex < files.Count - 1) PrintOptions("N", "æste plukseddel");
             PrintOptions("G", "enindlæs pluksedler");
-            PrintOptions("T", "est");
 
             SwitchCase(ref files, ref currentFileIndex);
             Console.ForegroundColor = ConsoleColor.White;
         }
     }
 
-    private static void PrintPlukliste(Pluklist plukliste)
+    public static void PrintPlukliste(Pluklist plukliste)
     {
         if (plukliste != null && plukliste.Lines != null)
         {
@@ -96,16 +95,19 @@ class PluklisteProgram {
                 break;
             case 'A':
                 var filewithoutPath = files[currentFileIndex].Substring(files[currentFileIndex].LastIndexOf('\\'));
+                try { 
                 File.Move(files[currentFileIndex], string.Format(@"import\\{0}", filewithoutPath));
+                }
+                catch { 
+                    Console.WriteLine("Faktura allerede afsluttet!");
+                    break;
+                }
                 Console.WriteLine($"Plukseddel {files[currentFileIndex]} afsluttet.");
                 files.Remove(files[currentFileIndex]);
                 if (currentFileIndex == files.Count) currentFileIndex--;
-                break;
-            case 'T':
                 var handlesHTML = HandleHTML.HandlesHTML;
                 handlesHTML(invoiceNumber, plukListe);
                 break;
-
         }
     }
 }
