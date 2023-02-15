@@ -100,6 +100,7 @@ class PluklisteProgram {
                 }
                 catch { 
                     Console.WriteLine("Faktura allerede afsluttet!");
+                    files.Remove(files[currentFileIndex]);
                     break;
                 }
                 Console.WriteLine($"Plukseddel {files[currentFileIndex]} afsluttet.");
