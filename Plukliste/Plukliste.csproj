@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <Folder Include="export\" />
-    <Folder Include="templates\" />
+    <Folder Include="templates\NewFolder\" />
+    <Folder Include="templates\templates\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="import\NewFile1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="templates\PRINT-OPGRADE.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="templates\PRINT-OPSIGELSE.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="templates\PRINT-WELCOME.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

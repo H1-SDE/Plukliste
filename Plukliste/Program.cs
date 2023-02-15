@@ -3,6 +3,8 @@
 class PluklisteProgram {
 
     public static char readKey = ' ';
+    public static string invoiceNumber = " ";
+    public static Pluklist plukListe = new();
 
     static void Main()
     {
@@ -27,10 +29,13 @@ class PluklisteProgram {
                 if (currentFileIndex == -1) currentFileIndex = 0;
                 FileStream file = File.OpenRead(files[currentFileIndex]);
                 System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
-                Pluklist plukListe = (Pluklist?)xmlSerializer.Deserialize(file);
+                plukListe = (Pluklist?)xmlSerializer.Deserialize(file)!;
                 Console.WriteLine($"Plukliste {currentFileIndex + 1} af {files.Count}");
                 Console.WriteLine($"\nfile: {files[currentFileIndex]}");
-                PrintPlukliste(plukListe);
+                invoiceNumber = files[currentFileIndex].Substring(files[currentFileIndex].LastIndexOf('\\'));
+                invoiceNumber = invoiceNumber.Replace("_export.XML", "");
+                invoiceNumber = invoiceNumber.Remove(0, 1);
+                PrintPlukliste(plukListe!);
                 file.Close();
             }
             Console.WriteLine("\n\nOptions:");
@@ -40,6 +45,7 @@ class PluklisteProgram {
             if (currentFileIndex > 0) PrintOptions("F", "orrige plukseddel");
             if (currentFileIndex < files.Count - 1) PrintOptions("N", "æste plukseddel");
             PrintOptions("G", "enindlæs pluksedler");
+            PrintOptions("T", "est");
 
             SwitchCase(ref files, ref currentFileIndex);
             Console.ForegroundColor = ConsoleColor.White;
@@ -95,6 +101,12 @@ class PluklisteProgram {
                 files.Remove(files[currentFileIndex]);
                 if (currentFileIndex == files.Count) currentFileIndex--;
                 break;
+            case 'T':
+                var handlesHTML = HandleHTML.HandlesHTML;
+                handlesHTML(invoiceNumber, plukListe);
+                break;
+
         }
     }
 }
+
