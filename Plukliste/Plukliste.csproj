@@ -8,9 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="print\**" />
+    <EmbeddedResource Remove="print\**" />
+    <None Remove="print\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="export\" />
     <Folder Include="templates" />
-    <Folder Include="print\" />
   </ItemGroup>
 
   <ItemGroup>
