@@ -5,7 +5,7 @@ class PluklisteProgram {
     public static char readKey = ' ';
     public static string invoiceNumber = " ";
     public static Pluklist plukListe = new();
-
+    private static Logging _logging = new Logging();
     static void Main()
     {
         Directory.CreateDirectory("import");
@@ -13,7 +13,7 @@ class PluklisteProgram {
         if (!Directory.Exists("export"))
         {
             Directory.CreateDirectory("export");
-            Console.WriteLine("created a export directory");
+            _logging.Log("created a export directory");
         }
         List<string> files = Directory.EnumerateFiles("export").ToList();
 
@@ -22,7 +22,7 @@ class PluklisteProgram {
         {
             if (files.Count == 0)
             {
-                Console.WriteLine("No files found.");
+                _logging.Log("No files found.");
             }
             else
             {
@@ -30,24 +30,24 @@ class PluklisteProgram {
                 FileStream file = File.OpenRead(files[currentFileIndex]);
                 System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(Pluklist));
                 plukListe = (Pluklist?)xmlSerializer.Deserialize(file)!;
-                Console.WriteLine($"Plukliste {currentFileIndex + 1} af {files.Count}");
-                Console.WriteLine($"\nfile: {files[currentFileIndex]}");
+                _logging.Log($"Plukliste {currentFileIndex + 1} af {files.Count}");
+                _logging.Log($"\nfile: {files[currentFileIndex]}");
                 invoiceNumber = files[currentFileIndex].Substring(files[currentFileIndex].LastIndexOf('\\'));
                 invoiceNumber = invoiceNumber.Replace("_export.XML", "");
                 invoiceNumber = invoiceNumber.Remove(0, 1);
                 PrintPlukliste(plukListe!);
                 file.Close();
             }
-            Console.WriteLine("\n\nOptions:");
+            _logging.Log("\n\nOptions:");
 
-            PrintOptions("Q", "uit");
-            if (currentFileIndex >= 0) PrintOptions("A", "fslut plukseddel");
-            if (currentFileIndex > 0) PrintOptions("F", "orrige plukseddel");
-            if (currentFileIndex < files.Count - 1) PrintOptions("N", "æste plukseddel");
-            PrintOptions("G", "enindlæs pluksedler");
+            _logging.PrintOptions("Q", "uit");
+            if (currentFileIndex >= 0) _logging.PrintOptions("A", "fslut plukseddel");
+            if (currentFileIndex > 0) _logging.PrintOptions("F", "orrige plukseddel");
+            if (currentFileIndex < files.Count - 1) _logging.PrintOptions("N", "æste plukseddel");
+            _logging.PrintOptions("G", "enindlæs pluksedler");
 
             SwitchCase(ref files, ref currentFileIndex);
-            Console.ForegroundColor = ConsoleColor.White;
+            _logging.Color(ConsoleColor.White);
         }
     }
 
@@ -67,25 +67,17 @@ class PluklisteProgram {
         }
     }
 
-    private static void PrintOptions(string option, string funtion)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.Write(option);
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(funtion);
-    }
-
     private static void SwitchCase(ref List<string> files, ref int currentFileIndex)
     {
         readKey = Console.ReadKey().KeyChar;
         Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Red;
+        _logging.Color(ConsoleColor.Red);
         switch (Char.ToUpper(readKey))
         {
             case 'G':
                 files = Directory.EnumerateFiles("export").ToList();
                 currentFileIndex = -1;
-                Console.WriteLine("Pluklister genindlæst");
+                _logging.Log("Pluklister genindlæst");
                 break;
             case 'F':
                 if (currentFileIndex > 0) currentFileIndex--;
@@ -98,12 +90,12 @@ class PluklisteProgram {
                 try { 
                 File.Move(files[currentFileIndex], string.Format(@"import\\{0}", filewithoutPath));
                 }
-                catch { 
-                    Console.WriteLine("Faktura allerede afsluttet!");
+                catch {
+                    _logging.Log("Faktura allerede afsluttet!");
                     files.Remove(files[currentFileIndex]);
                     break;
                 }
-                Console.WriteLine($"Plukseddel {files[currentFileIndex]} afsluttet.");
+                _logging.Log($"Plukseddel {files[currentFileIndex]} afsluttet.");
                 files.Remove(files[currentFileIndex]);
                 if (currentFileIndex == files.Count) currentFileIndex--;
                 var handlesHTML = HandleHTML.HTMLHandler.PrintHTML;
