@@ -106,7 +106,7 @@ class PluklisteProgram {
                 Console.WriteLine($"Plukseddel {files[currentFileIndex]} afsluttet.");
                 files.Remove(files[currentFileIndex]);
                 if (currentFileIndex == files.Count) currentFileIndex--;
-                var handlesHTML = HandleHTML.HandlesHTML;
+                var handlesHTML = HandleHTML.HTMLHandler.PrintHTML;
                 handlesHTML(invoiceNumber, plukListe);
                 break;
         }
