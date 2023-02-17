@@ -1,4 +1,6 @@
-﻿namespace Plukliste;
+﻿using Plukliste.Infrastukture.console;
+
+namespace Plukliste;
 
 class PluklisteProgram {
 
@@ -6,6 +8,8 @@ class PluklisteProgram {
     public static string invoiceNumber = " ";
     public static Pluklist plukListe = new();
     private static Logging _logging = new Logging();
+    private static LoggingColor _LoggingColor = new LoggingColor();
+    private static LogginOptions _LogginOptions = new LogginOptions();
     static void Main()
     {
         Directory.CreateDirectory("import");
@@ -40,14 +44,14 @@ class PluklisteProgram {
             }
             _logging.Log("\n\nOptions:");
 
-            _logging.PrintOptions("Q", "uit");
-            if (currentFileIndex >= 0) _logging.PrintOptions("A", "fslut plukseddel");
-            if (currentFileIndex > 0) _logging.PrintOptions("F", "orrige plukseddel");
-            if (currentFileIndex < files.Count - 1) _logging.PrintOptions("N", "æste plukseddel");
-            _logging.PrintOptions("G", "enindlæs pluksedler");
+            _LogginOptions.PrintOptions("Q", "uit");
+            if (currentFileIndex >= 0) _LogginOptions.PrintOptions("A", "fslut plukseddel");
+            if (currentFileIndex > 0) _LogginOptions.PrintOptions("F", "orrige plukseddel");
+            if (currentFileIndex < files.Count - 1) _LogginOptions.PrintOptions("N", "æste plukseddel");
+            _LogginOptions.PrintOptions("G", "enindlæs pluksedler");
 
             SwitchCase(ref files, ref currentFileIndex);
-            _logging.Color(ConsoleColor.White);
+            _LoggingColor.Color(ConsoleColor.White);
         }
     }
 
@@ -71,7 +75,7 @@ class PluklisteProgram {
     {
         readKey = Console.ReadKey().KeyChar;
         Console.Clear();
-        _logging.Color(ConsoleColor.Red);
+        _LoggingColor.Color(ConsoleColor.Red);
         switch (Char.ToUpper(readKey))
         {
             case 'G':
