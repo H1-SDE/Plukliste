@@ -9,7 +9,7 @@ namespace Plukliste.Infrastukture.console
 {
     internal class Logging
     {
-        public void Log(string message)
+        public void Log : Log
         {
             Console.WriteLine(message);
         }

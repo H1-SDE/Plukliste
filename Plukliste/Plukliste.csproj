@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Infrastukture\console\NewFile1.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="export\" />
     <Folder Include="templates" />
   </ItemGroup>

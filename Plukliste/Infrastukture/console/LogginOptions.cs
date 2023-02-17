@@ -10,9 +10,10 @@ namespace Plukliste.Infrastukture.console
     {
         public void PrintOptions(string option, string funtion)
         {
-            Console.ForegroundColor = LoggingColor.Green;
+            LoggingColor loggingColor = new LoggingColor();
+            loggingColor.Color(ConsoleColor.Green);
             Console.Write(option);
-            Console.ForegroundColor = LoggingColor.White;
+            loggingColor.Color(ConsoleColor.White);
             Console.WriteLine(funtion);
         }
     }
