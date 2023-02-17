@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Plukliste.Infrastukture.console
+namespace Plukliste.Infrastukture.console.Interface
 {
-    public class LogginOptions
+    public class LogginOptions : ILogging
     {
         public void PrintOptions(string option, string funtion)
         {

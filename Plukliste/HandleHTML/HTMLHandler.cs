@@ -22,9 +22,5 @@ namespace Plukliste.HandleHTML
                 }
             }
         }
-
-
-
-
     }
 }

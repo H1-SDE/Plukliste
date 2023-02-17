@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Plukliste.Infrastukture.console
+namespace Plukliste.Infrastukture.console.Interface
 {
-    internal class LogginFormat
+    internal class LogginFormat : ILogging
     {
         public void loggingFormat(string format, string text, string plukliste)
         {

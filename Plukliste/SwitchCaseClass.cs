@@ -1,4 +1,4 @@
-﻿using Plukliste.Infrastukture.console;
+﻿using Plukliste.Infrastukture.console.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

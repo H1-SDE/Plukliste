@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Plukliste
 {
-    internal interface iKeys
+    public interface IKeys
     {
-        Log(string message);
+        void Log(string message);
     }
 }

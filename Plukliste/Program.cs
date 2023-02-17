@@ -1,5 +1,5 @@
 ﻿using Plukliste;
-using Plukliste.Infrastukture.console;
+using Plukliste.Infrastukture.console.Interface;
 
 namespace Plukliste;
 
