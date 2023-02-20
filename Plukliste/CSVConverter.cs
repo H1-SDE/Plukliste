@@ -31,8 +31,8 @@ namespace Plukliste
                 Item item = new()
                 {
                     ProductID = data[row],
-                    Type = data[row + 2] == "Fysisk" ? (ItemType)0 : data[row + 2] == "Print" ? (ItemType)1 : (ItemType)2,
-                    Description = data[row + 2],
+                    Type = data[row + 1] == "Fysisk" ? (ItemType)0 : data[row + 2] == "Print" ? (ItemType)1 : (ItemType)2,
+                    Title = data[row + 2],
                     Amount = Convert.ToInt32(data[row + 3])
                 };
                 plukListe.Lines.Add(item);

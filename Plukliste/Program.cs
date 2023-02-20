@@ -39,7 +39,7 @@ class PluklisteProgram
                 if (file.Name.EndsWith("XML")) plukListe = (Pluklist?)xmlSerializer.Deserialize(file)!;
                 if (file.Name.EndsWith("CSV"))
                 {
-                    CSVConverter converter = new CSVConverter();
+                    CSVConverter converter = new();
                     converter.CSVReader(file, plukListe);
                 }
 
