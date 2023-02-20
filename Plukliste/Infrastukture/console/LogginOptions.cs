@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Plukliste.Infrastukture.console.Interface
 {
-    public class LogginOptions : ILogging
+    public class LogginOptions : ILoggingOptions
     {
         public void PrintOptions(string option, string funtion)
         {

@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Plukliste
+{
+    public interface ICSVConverter
+    {
+        void CSVReader(FileStream file, Pluklist plukListe);
+        void AddToList(Pluklist plukListe, string[] data);
+    }
+}

@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Aspose.HTML" Version="23.2.0" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
   </ItemGroup>
 
   <ItemGroup>

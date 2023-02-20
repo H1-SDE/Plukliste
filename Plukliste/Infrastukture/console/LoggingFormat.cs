@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Plukliste.Infrastukture.console.Interface
 {
-    internal class LogginFormat : ILogging
+    internal class LogginFormat : ILoggingFormat
     {
         public void loggingFormat(string format, string text, string plukliste)
         {

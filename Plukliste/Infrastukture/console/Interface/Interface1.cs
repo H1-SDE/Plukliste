@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Plukliste.Infrastukture.console.Interface
 {
-    internal class LoggingColor : ILoggingColor
+    internal interface Interface1
     {
-        public void Color(ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-        }
     }
 }

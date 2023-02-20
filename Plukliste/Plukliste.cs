@@ -10,15 +10,16 @@ public class Pluklist
 
 public class Item
 {
-    public string ProductID;
-    public string Title;
-    public ItemType Type;
-    public int Amount;
+    public string? ProductID { get; set; }
+    public string? Title { get; set; }
+    public ItemType Type { get; set; }
+    public int Amount { get; set; }
+    public string? Description { get; set; }
 }
 
 public enum ItemType
 {
-    Fysisk, Print
+    Fysisk, Print, Pickup
 }
 
 
