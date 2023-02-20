@@ -5,12 +5,13 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Lager/Lager.csproj", "Lager/"]
-RUN dotnet restore "Lager/Lager.csproj"
+COPY ["Lager.csproj", "./"]
+RUN dotnet restore "Lager.csproj"
 COPY . .
-WORKDIR "/src/Lager"
+WORKDIR "./"
 RUN dotnet build "Lager.csproj" -c Release -o /app/build
 
 FROM build AS publish
