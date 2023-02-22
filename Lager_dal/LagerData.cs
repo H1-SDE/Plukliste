@@ -3,21 +3,21 @@ using System.Data.SqlClient;
 
 namespace Lager_dal
 {
-    public class Lager
+    public class LagerData
     {
-        private string _ip = "0.0.0.0";
-        private string _password = "S3cur3P@ssW0rd!";
-        private string _user = "sa";
-        private string _initialCatalog = "Lager";
-        private string _tabel = "Lager";
-        public void AddEmply(string productId, string description, int amount)
+        internal string _ip = "10.130.54.80";
+        internal string _password = "S3cur3P@ssW0rd!";
+        internal string _user = "SA";
+        internal string _initialCatalog = "Lager";
+        internal string _tabel = "Lager";
+        public void AddProduct(string productId, string description, int amount)
         {
             try
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
                 builder.DataSource = _ip;
-                builder.UserID = _password;
-                builder.Password = _user;
+                builder.UserID = _user;
+                builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
@@ -43,8 +43,8 @@ namespace Lager_dal
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
                 builder.DataSource = _ip;
-                builder.UserID = _password;
-                builder.Password = _user;
+                builder.UserID = _user;
+                builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
@@ -78,13 +78,13 @@ namespace Lager_dal
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
                 builder.DataSource = _ip;
-                builder.UserID = _password;
-                builder.Password = _user;
+                builder.UserID = _user;
+                builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
-                    String sql = $"SELECT [ProductID], [Description], [Amount] FROM {_tabel} WHERE ProductID={productId} FOR JSON AUTO;";
+                    String sql = $"SELECT [ProductID], [Description], [Amount] FROM {_tabel} WHERE ProductID='{productId}' FOR JSON AUTO;";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
@@ -115,8 +115,8 @@ namespace Lager_dal
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
                 builder.DataSource = _ip;
-                builder.UserID = _password;
-                builder.Password = _user;
+                builder.UserID = _user;
+                builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
@@ -146,8 +146,8 @@ namespace Lager_dal
             {
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
                 builder.DataSource = _ip;
-                builder.UserID = _password;
-                builder.Password = _user;
+                builder.UserID = _user;
+                builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))

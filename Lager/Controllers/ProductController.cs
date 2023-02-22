@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Lager.Models;
+using Lager_dal;
+using System.Text.Json;
 
 namespace Lager.Controllers
 {
@@ -8,13 +11,27 @@ namespace Lager.Controllers
         // GET: ProductController
         public ActionResult Index()
         {
-            return View();
+            LagerData lagerData = new LagerData();
+            string getProductJson = lagerData.GetProduct();
+            List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductJson)!;
+            return View(list);
         }
 
         // GET: ProductController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            LagerData lagerData = new LagerData();
+            LagerModel lagerModel = new LagerModel();
+            string getProductByIdJson = lagerData.GetProduct(id);
+            List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductByIdJson);
+            foreach (var item in list)
+            {
+                lagerModel.ProductID = item.ProductID;
+                lagerModel.Description = item.Description;
+                lagerModel.Amount = item.Amount;
+
+            }
+            return View(lagerModel);
         }
 
         // GET: ProductController/Create
