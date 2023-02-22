@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Lager.Models;
 using Lager_dal;
 using System.Text.Json;
@@ -23,7 +22,7 @@ namespace Lager.Controllers
             LagerData lagerData = new();
             LagerModel lagerModel = new();
             string getProductByIdJson = lagerData.GetProduct(id);
-            List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductByIdJson);
+            List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductByIdJson)!;
             foreach (var item in list)
             {
                 lagerModel.ProductID = item.ProductID;
@@ -67,7 +66,7 @@ namespace Lager.Controllers
             LagerData lagerData = new();
             LagerModel lagerModel = new();
             string getProductByIdJson = lagerData.GetProduct(id);
-            List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductByIdJson);
+            List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductByIdJson)!;
             foreach (var item in list)
             {
                 lagerModel.ProductID = item.ProductID;
