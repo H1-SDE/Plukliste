@@ -26,12 +26,10 @@ namespace Lager_dal
                 using SqlConnection connection = new(builder.ConnectionString);
                 String sql = $"INSERT INTO {_tabel} ([ProductID], [Description], [Amount]) VALUES ('{productId}', '{description}', {amount});";
 
-                using (SqlCommand command = new(sql, connection))
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    return "success";
-                }
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                return "success";
             }
             catch (SqlException e)
             {
@@ -53,22 +51,18 @@ namespace Lager_dal
                     InitialCatalog = _initialCatalog
                 };
 
-                using (SqlConnection connection = new(builder.ConnectionString))
-                {
-                    String sql = $"SELECT TOP (50) [ProductID], [Description], [Amount] FROM {_tabel} FOR JSON AUTO;";
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"SELECT TOP (50) [ProductID], [Description], [Amount] FROM {_tabel} FOR JSON AUTO;";
 
-                    using (SqlCommand command = new(sql, connection))
-                    {
-                        connection.Open();
-                        var jsonResult = new StringBuilder();
-                        SqlDataReader oReader = command.ExecuteReader();
-                        while (oReader.Read())
-                        {
-                            jsonResult.Append(oReader[0]);
-                        }
-                        return jsonResult.ToString();
-                    }
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                var jsonResult = new StringBuilder();
+                SqlDataReader oReader = command.ExecuteReader();
+                while (oReader.Read())
+                {
+                    jsonResult.Append(oReader[0]);
                 }
+                return jsonResult.ToString();
             }
             catch (SqlException e)
             {
@@ -90,24 +84,20 @@ namespace Lager_dal
                     InitialCatalog = _initialCatalog
                 };
 
-                using (SqlConnection connection = new(builder.ConnectionString))
-                {
-                    String sql = $"SELECT [ProductID], [Description], [Amount] FROM {_tabel} WHERE ProductID='{productId}' FOR JSON AUTO;";
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"SELECT [ProductID], [Description], [Amount] FROM {_tabel} WHERE ProductID='{productId}' FOR JSON AUTO;";
 
-                    using (SqlCommand command = new(sql, connection))
-                    {
-                        connection.Open();
-                        var jsonResult = new StringBuilder();
-                        SqlDataReader oReader = command.ExecuteReader();
-                        while (oReader.Read())
-                        {
-                            int i = 0;
-                            jsonResult.Append(oReader[i]);
-                            i++;
-                        }
-                        return jsonResult.ToString();
-                    }
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                var jsonResult = new StringBuilder();
+                SqlDataReader oReader = command.ExecuteReader();
+                while (oReader.Read())
+                {
+                    int i = 0;
+                    jsonResult.Append(oReader[i]);
+                    i++;
                 }
+                return jsonResult.ToString();
             }
             catch (SqlException e)
             {
@@ -127,18 +117,14 @@ namespace Lager_dal
                 builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
 
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = $"UPDATE {_tabel} SET [Description]='{title}', [Amount]={amount} WHERE ProductID='{productId}';";
+                using SqlConnection connection = new SqlConnection(builder.ConnectionString);
+                String sql = $"UPDATE {_tabel} SET [Description]='{title}', [Amount]={amount} WHERE ProductID='{productId}';";
 
-                    using (SqlCommand command = new(sql, connection))
-                    {
+                using SqlCommand command = new(sql, connection);
 
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        return "success";
-                    }
-                }
+                connection.Open();
+                command.ExecuteNonQuery();
+                return "success";
             }
             catch (SqlException e)
             {
