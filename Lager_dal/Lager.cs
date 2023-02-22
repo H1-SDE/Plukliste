@@ -37,7 +37,7 @@ namespace Lager_dal
             }
         }
 
-        public string GetEmply()
+        public string GetProduct()
         {
             try
             {
@@ -71,8 +71,8 @@ namespace Lager_dal
             }
         }
 
-        //Get Produck detail based on Produck id
-        public string GetEmply(int productId)
+        //Get Product detail based on Product id
+        public string GetProduct(int productId)
         {
             try
             {
@@ -108,8 +108,8 @@ namespace Lager_dal
             }
         }
 
-        //Delete Produck detail based on produck id
-        public string DeleteEmply(int productId)
+        //Delete Product detail based on Product id
+        public string DeleteProduct(int productId)
         {
             try
             {
@@ -139,8 +139,8 @@ namespace Lager_dal
             }
         }
 
-        //Update Produck detail based on Produck id
-        public string UpdateEmply(int productId)
+        //Update Product detail based on Product id
+        public string UpdateProduct(int productId)
         {
             try
             {
