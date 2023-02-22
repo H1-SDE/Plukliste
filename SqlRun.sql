@@ -1,10 +1,10 @@
 CREATE TABLE Lager (
-    ProductID varchar(255) PRIMARY KEY,
-    "Description" varchar(MAX),
-	Amount int
+    [ProductID] varchar(255) PRIMARY KEY,
+    [Description] varchar(MAX),
+	[Amount] int
 );
 
-INSERT INTO Lager (ProductID, "Description", Amount)
+INSERT INTO Lager ([ProductID], [Description], [Amount])
 VALUES 
   ('TX-302587', 'Triax TD 241E stikdås', 72389),
   ('NETGEAR-CM1000', 'NETGEAR DOCSIS 3.1 (CM1000)', 856),
