@@ -85,7 +85,7 @@ namespace Lager.Controllers
             try
             {
                 LagerData lagerData = new();
-                lagerData.UpdateProduct(id, product.Description, product.Amount);
+                lagerData.UpdateProduct(id, product.Description!, product.Amount);
                 return RedirectToAction(nameof(Index));
             }
             catch
