@@ -46,9 +46,7 @@ class PluklisteProgram
                 logging.Log($"Plukliste {currentFileIndex + 1} af {files.Count}");
                 logging.Log($"\nfile: {files[currentFileIndex]}");
                 invoiceNumber = files[currentFileIndex].Substring(files[currentFileIndex].LastIndexOf('\\'));
-                invoiceNumber = invoiceNumber.Replace("_export.XML", "");
-                invoiceNumber = invoiceNumber.Replace("_plukliste.XML", "");
-                invoiceNumber = invoiceNumber.Remove(0, 1);
+                invoiceNumber = invoiceNumber.Replace("_export.XML", "").Replace("_plukliste.XML", "").Remove(0, 1);
                 PrintPluklisteClass.PrintPlukliste(plukListe!);
                 file.Close();
             }

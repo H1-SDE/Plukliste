@@ -14,6 +14,7 @@ namespace Plukliste
             {
                 plukListe.Name = $"{file.Name.Split("_")[1]} {file.Name.Split("_")[2].Replace(".CSV", "")}";
                 plukListe.Forsendelse = "PickUp";
+                plukListe.Adresse = "Lager";
                 string file_text = reader.ReadToEnd();
 
                 string[] data = file_text.Split(new char[] { ';', '\n' });
