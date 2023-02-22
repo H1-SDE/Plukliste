@@ -125,7 +125,7 @@ namespace Lager_dal
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
-                    String sql = $"UPDATE {_tabel} SET [Description] = {title}, [Amount] = {amount} WHERE ProductID={productId};";
+                    String sql = $"UPDATE {_tabel} SET [Description]='{title}', [Amount]={amount} WHERE ProductID='{productId}';";
 
                     using (SqlCommand command = new(sql, connection))
                     {
