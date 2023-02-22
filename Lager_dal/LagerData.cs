@@ -108,37 +108,6 @@ namespace Lager_dal
             }
         }
 
-        //Delete Product detail based on Product id
-        public string DeleteProduct(int productId)
-        {
-            try
-            {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = _ip;
-                builder.UserID = _user;
-                builder.Password = _password;
-                builder.InitialCatalog = _initialCatalog;
-
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-                {
-                    String sql = $"DELETE FROM {_tabel} WHERE ProductID={productId};";
-
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        return "success";
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.ToString());
-                return e.ToString();
-            }
-        }
-
         //Update Product detail based on Product id
         public string UpdateProduct(int productId)
         {
