@@ -123,7 +123,7 @@ namespace Lager_dal
                 {
                     String sql = $"UPDATE {_tabel} SET [Description] = {title}, [Amount] = {amount} WHERE ProductID={productId};";
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    using (SqlCommand command = new(sql, connection))
                     {
 
                         connection.Open();
