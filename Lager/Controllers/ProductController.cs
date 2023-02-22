@@ -48,12 +48,16 @@ namespace Lager.Controllers
             try
             {
                 LagerData lagerData = new();
-                lagerData.AddProduct(product.ProductID!, product.Description!, product.Amount!);
+                var errorTeck = lagerData.AddProduct(product.ProductID!, product.Description!, product.Amount!);
+                if (errorTeck != "success")
+                {
+                    return View(product);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(product);
             }
         }
 

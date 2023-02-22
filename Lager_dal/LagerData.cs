@@ -10,7 +10,8 @@ namespace Lager_dal
         internal string _user = "SA";
         internal string _initialCatalog = "Lager";
         internal string _tabel = "Lager";
-        public void AddProduct(string productId, string description, int amount)
+
+        public string AddProduct(string productId, string description, int amount)
         {
             try
             {
@@ -29,11 +30,14 @@ namespace Lager_dal
                 {
                     connection.Open();
                     command.ExecuteNonQuery();
+                    return "success";
                 }
             }
             catch (SqlException e)
             {
                 Console.WriteLine(e.ToString());
+                return "ProductID need to be unique!!";
+
             }
         }
 
