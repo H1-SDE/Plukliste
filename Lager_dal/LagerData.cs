@@ -14,21 +14,21 @@ namespace Lager_dal
         {
             try
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = _ip;
-                builder.UserID = _user;
-                builder.Password = _password;
-                builder.InitialCatalog = _initialCatalog;
-
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                SqlConnectionStringBuilder builder = new()
                 {
-                    String sql = $"INSERT INTO {_tabel} ([ProductID], [Description], [Amount]) VALUES ('{productId}', '{description}', {amount});";
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                    }
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"INSERT INTO {_tabel} ([ProductID], [Description], [Amount]) VALUES ('{productId}', '{description}', {amount});";
+
+                using (SqlCommand command = new(sql, connection))
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
                 }
             }
             catch (SqlException e)
@@ -41,17 +41,19 @@ namespace Lager_dal
         {
             try
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = _ip;
-                builder.UserID = _user;
-                builder.Password = _password;
-                builder.InitialCatalog = _initialCatalog;
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
 
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                using (SqlConnection connection = new(builder.ConnectionString))
                 {
                     String sql = $"SELECT TOP (50) [ProductID], [Description], [Amount] FROM {_tabel} FOR JSON AUTO;";
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    using (SqlCommand command = new(sql, connection))
                     {
                         connection.Open();
                         var jsonResult = new StringBuilder();
@@ -76,17 +78,19 @@ namespace Lager_dal
         {
             try
             {
-                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-                builder.DataSource = _ip;
-                builder.UserID = _user;
-                builder.Password = _password;
-                builder.InitialCatalog = _initialCatalog;
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
 
-                using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+                using (SqlConnection connection = new(builder.ConnectionString))
                 {
                     String sql = $"SELECT [ProductID], [Description], [Amount] FROM {_tabel} WHERE ProductID='{productId}' FOR JSON AUTO;";
 
-                    using (SqlCommand command = new SqlCommand(sql, connection))
+                    using (SqlCommand command = new(sql, connection))
                     {
                         connection.Open();
                         var jsonResult = new StringBuilder();
