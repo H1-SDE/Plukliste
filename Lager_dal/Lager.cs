@@ -5,7 +5,7 @@ namespace Lager_dal
 {
     public class Lager
     {
-        private string _ip = "10.130.54.80";
+        private string _ip = "0.0.0.0";
         private string _password = "S3cur3P@ssW0rd!";
         private string _user = "sa";
         private string _initialCatalog = "Lager";
