@@ -11,7 +11,7 @@ namespace Lager.Controllers
         // GET: ProductController
         public ActionResult Index()
         {
-            LagerData lagerData = new LagerData();
+            LagerData lagerData = new();
             string getProductJson = lagerData.GetProduct();
             List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductJson)!;
             return View(list);
@@ -20,8 +20,8 @@ namespace Lager.Controllers
         // GET: ProductController/Details/5
         public ActionResult Details(int id)
         {
-            LagerData lagerData = new LagerData();
-            LagerModel lagerModel = new LagerModel();
+            LagerData lagerData = new();
+            LagerModel lagerModel = new();
             string getProductByIdJson = lagerData.GetProduct(id);
             List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductByIdJson);
             foreach (var item in list)
@@ -47,7 +47,7 @@ namespace Lager.Controllers
         {
             try
             {
-                LagerData lagerData = new LagerData();
+                LagerData lagerData = new();
                 lagerData.AddProduct(product.ProductID!, product.Description!, product.Amount!);
                 return RedirectToAction(nameof(Index));
             }
@@ -60,8 +60,8 @@ namespace Lager.Controllers
         // GET: ProductController/Edit/5
         public ActionResult Edit(int id)
         {
-            LagerData lagerData = new LagerData();
-            LagerModel lagerModel = new LagerModel();
+            LagerData lagerData = new();
+            LagerModel lagerModel = new();
             string getProductByIdJson = lagerData.GetProduct(id);
             List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductByIdJson);
             foreach (var item in list)
@@ -77,10 +77,12 @@ namespace Lager.Controllers
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, LagerModel product)
         {
             try
             {
+                LagerData lagerData = new();
+                lagerData.UpdateProduct(id, product.Description, product.Amount);
                 return RedirectToAction(nameof(Index));
             }
             catch

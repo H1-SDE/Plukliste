@@ -109,7 +109,7 @@ namespace Lager_dal
         }
 
         //Update Product detail based on Product id
-        public string UpdateProduct(int productId)
+        public string UpdateProduct(int productId, string title, int amount)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace Lager_dal
 
                 using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
                 {
-                    String sql = $"UPDATE {_tabel} WHERE ProductID={productId};";
+                    String sql = $"UPDATE {_tabel} SET [Description] = {title}, [Amount] = {amount} WHERE ProductID={productId};";
 
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
