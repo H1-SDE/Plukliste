@@ -136,7 +136,7 @@ namespace Lager_dal
                 }
                 try { 
                     return Convert.ToInt32(res.ToString());
-                } catch { return 0; }
+                } catch { return -1; }
                 
             }
             catch (SqlException e)

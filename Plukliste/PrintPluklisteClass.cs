@@ -24,8 +24,9 @@ namespace Plukliste
                 Lager_dal.LagerData Antal = new();
                 foreach (var item in plukliste.Lines)
                 {
-                    string antal = Antal.GetProductCount(item.ProductID) > 0 ? $"({Antal.GetProductCount(item.ProductID)})" : "(N/A)";
-                    Console.WriteLine("{0,-13}{1,-19}{2,-30}{3}", ($"{item.Amount} {antal}"), item.Type, item.ProductID, item.Title);
+                    int produktAntal = Antal.GetProductCount(item.ProductID);
+                    string antalTekst = item.Type == ItemType.Fysisk ? produktAntal >= 0 ? $"({produktAntal - item.Amount})" : "(N/A)" : "";
+                    Console.WriteLine("{0,-13}{1,-19}{2,-30}{3}", ($"{item.Amount} {antalTekst}"), item.Type, item.ProductID, item.Title);
                 }
             }
         }
