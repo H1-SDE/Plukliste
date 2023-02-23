@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Plukliste
@@ -18,10 +20,12 @@ namespace Plukliste
                 logginFormat.loggingFormat("{0,-13 }{1}", "Forsendelse:", plukliste.Forsendelse);
                 logginFormat.loggingFormat("{0,-13 }{1}", "Adresse:", plukliste.Adresse);
 
-                Console.WriteLine("\n{0,-7}{1,-9}{2,-20}{3}", "Antal", "Type", "Produktnr.", "Navn");
+                Console.WriteLine("\n{0,-13}{1,-19}{2,-30}{3}", "Antal", "Type", "Produktnr.", "Navn");
+                Lager_dal.LagerData Antal = new();
                 foreach (var item in plukliste.Lines)
                 {
-                    Console.WriteLine("{0,-7}{1,-9}{2,-20}{3}", item.Amount, item.Type, item.ProductID, item.Title);
+                    string antal = Antal.GetProductCount(item.ProductID) > 0 ? $"({Antal.GetProductCount(item.ProductID)})" : "(N/A)";
+                    Console.WriteLine("{0,-13}{1,-19}{2,-30}{3}", ($"{item.Amount} {antal}"), item.Type, item.ProductID, item.Title);
                 }
             }
         }

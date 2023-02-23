@@ -29,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lager_dal\Lager_dal.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="export\638118766706624322_export.XML">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

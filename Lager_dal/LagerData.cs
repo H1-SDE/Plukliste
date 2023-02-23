@@ -5,7 +5,7 @@ namespace Lager_dal
 {
     public class LagerData
     {
-        internal string _ip = "10.130.54.80";
+        internal string _ip = "10.130.54.117";
         internal string _password = "S3cur3P@ssW0rd!";
         internal string _user = "SA";
         internal string _initialCatalog = "Lager";
@@ -72,7 +72,7 @@ namespace Lager_dal
         }
 
         //Get Product detail based on Product id
-        public string GetProduct(int productId)
+        public string GetProduct(string productId)
         {
             try
             {
@@ -106,6 +106,45 @@ namespace Lager_dal
             }
         }
 
+        public int GetProductCount(string productId)
+        {
+            try
+            {
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+
+                };
+
+                productId = productId.StartsWith("#") ? productId.Remove(0, 1) : productId;
+
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"SELECT [Amount] FROM {_tabel} WHERE ProductID='{productId}';";
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                SqlDataReader oReader = command.ExecuteReader();
+
+                string res = "";
+                while (oReader.Read())
+                {
+                    int i = 0;
+                    res += oReader[i];
+                }
+                try { 
+                    return Convert.ToInt32(res.ToString());
+                } catch { return 0; }
+                
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                return 0;
+            }
+        }
         //Update Product detail based on Product id
         public string UpdateProduct(int productId, string title, int amount)
         {
