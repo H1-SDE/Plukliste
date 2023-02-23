@@ -31,6 +31,7 @@ namespace Plukliste
                     if (currentFileIndex < files.Count - 1) currentFileIndex++;
                     break;
                 case 'A':
+                    UpdateStorage(plukListe);
                     var filewithoutPath = files[currentFileIndex].Substring(files[currentFileIndex].LastIndexOf('\\'));
                     try
                     {
@@ -48,6 +49,18 @@ namespace Plukliste
                     var handlesHTML = HandleHTML.HTMLHandler.PrintHTML;
                     handlesHTML(invoiceNumber, plukListe);
                     break;
+            }
+        }
+
+        public static void UpdateStorage(Pluklist plukListe)
+        {
+            Lager_dal.LagerData Lager = new();
+            foreach (var item in plukListe.Lines)
+            {
+                if (Lager.GetProductCount(item.ProductID) > 0)
+                {
+                    Lager.UpdateProduct(item.ProductID, item.Title, Lager.GetProductCount(item.ProductID) - item.Amount);
+                }
             }
         }
     }

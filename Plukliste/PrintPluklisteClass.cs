@@ -20,13 +20,13 @@ namespace Plukliste
                 logginFormat.loggingFormat("{0,-13 }{1}", "Forsendelse:", plukliste.Forsendelse);
                 logginFormat.loggingFormat("{0,-13 }{1}", "Adresse:", plukliste.Adresse);
 
-                Console.WriteLine("\n{0,-13}{1,-19}{2,-30}{3}", "Antal", "Type", "Produktnr.", "Navn");
+                Console.WriteLine("\n{0,-12}{1,-15}{2,-25}{3, -35}{4}", "Antal", "Lager (Rest)", "Type", "Produktnr.", "Navn");
                 Lager_dal.LagerData Antal = new();
                 foreach (var item in plukliste.Lines)
                 {
                     int produktAntal = Antal.GetProductCount(item.ProductID);
-                    string antalTekst = item.Type == ItemType.Fysisk ? produktAntal >= 0 ? $"({produktAntal - item.Amount})" : "(N/A)" : "";
-                    Console.WriteLine("{0,-13}{1,-19}{2,-30}{3}", ($"{item.Amount} {antalTekst}"), item.Type, item.ProductID, item.Title);
+                    string antalTekst = item.Type == ItemType.Fysisk ? produktAntal >= 0 ? $"{produktAntal} ({produktAntal - item.Amount})" : "(N/A)" : "";
+                    Console.WriteLine("{0,-12}{1,-15}{2,-25}{3, -35}{4}", item.Amount, $"{antalTekst}", item.Type, item.ProductID, item.Title);
                 }
             }
         }

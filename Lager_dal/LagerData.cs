@@ -142,11 +142,11 @@ namespace Lager_dal
             catch (SqlException e)
             {
                 Console.WriteLine(e.ToString());
-                return 0;
+                return -1;
             }
         }
         //Update Product detail based on Product id
-        public string UpdateProduct(int productId, string title, int amount)
+        public string UpdateProduct(string productId, string title, int amount)
         {
             try
             {
@@ -155,6 +155,8 @@ namespace Lager_dal
                 builder.UserID = _user;
                 builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
+
+                productId = productId.StartsWith("#") ? productId.Remove(0, 1) : productId;
 
                 using SqlConnection connection = new SqlConnection(builder.ConnectionString);
                 String sql = $"UPDATE {_tabel} SET [Description]='{title}', [Amount]={amount} WHERE ProductID='{productId}';";
