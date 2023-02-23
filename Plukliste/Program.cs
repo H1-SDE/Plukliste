@@ -1,7 +1,6 @@
 ﻿using Plukliste;
 using Plukliste.Infrastukture.console.Interface;
 using Microsoft.VisualBasic.FileIO;
-using CsvHelper;
 using System.Globalization;
 using System.Formats.Asn1;
 using System.Reflection.PortableExecutable;
