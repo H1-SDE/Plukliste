@@ -17,7 +17,7 @@ namespace Lager.Controllers
         }
 
         // GET: ProductController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             LagerData lagerData = new();
             LagerModel lagerModel = new();
