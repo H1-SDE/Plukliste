@@ -57,11 +57,15 @@ namespace Plukliste
             Lager_dal.LagerData Lager = new();
             foreach (var item in plukListe.Lines)
             {
-                if (Lager.GetProductCount(item.ProductID) > 0)
+                if (Lager.GetProductCount(item.ProductID) > 0 && Lager.GetProductCount(item.ProductID) - item.Amount >= 0)
                 {
                     Lager.UpdateProduct(item.ProductID, item.Title, Lager.GetProductCount(item.ProductID) - item.Amount);
+                } 
+                else
+                {
+                    Console.WriteLine("Fejl!");
                 }
-            }
+            } 
         }
     }
 }
