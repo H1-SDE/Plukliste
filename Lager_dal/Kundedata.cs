@@ -114,7 +114,7 @@ namespace Lager_dal
         }
 
         //Update Customer detail based on Customer id
-        public string UpdateProduct(string name, string adresse, int kundeId)
+        public string UpdateCostumer(string name, string adresse, int kundeId)
         {
             try
             {
