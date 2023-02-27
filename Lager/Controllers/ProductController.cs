@@ -61,7 +61,7 @@ namespace Lager.Controllers
         }
 
         // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             LagerData lagerData = new();
             LagerModel lagerModel = new();
@@ -80,7 +80,7 @@ namespace Lager.Controllers
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, LagerModel product)
+        public ActionResult Edit(string id, LagerModel product)
         {
             try
             {
