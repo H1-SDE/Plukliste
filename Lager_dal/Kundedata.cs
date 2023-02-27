@@ -79,7 +79,7 @@ namespace Lager_dal
         }
 
         //Get Customer detail based on Customer id
-        public string GetCustomer(string customerId)
+        public string GetCustomer(int customerId)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]={adresse} WHERE {_kundeIDColumn}='{kundeId}';";
+                String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]='{adresse}' WHERE {_kundeIDColumn}={kundeId};";
 
                 using SqlCommand command = new(sql, connection);
 

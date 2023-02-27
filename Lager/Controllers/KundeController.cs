@@ -12,15 +12,26 @@ namespace Lager.Controllers
         public ActionResult Index()
         {
             Kundedata kundeData = new();
-            string getProductJson = kundeData.GetCustomers();
-            List<KundeModel> list = JsonSerializer.Deserialize<List<KundeModel>>(getProductJson)!;
+            string getCustomerJson = kundeData.GetCustomers();
+            List<KundeModel> list = JsonSerializer.Deserialize<List<KundeModel>>(getCustomerJson)!;
             return View(list);
         }
 
         // GET: KunderController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Kundedata kundeData = new();
+            KundeModel kundeModel = new();
+            string getCustomerByIdJson = kundeData.GetCustomer(id);
+            List<KundeModel> list = JsonSerializer.Deserialize<List<KundeModel>>(getCustomerByIdJson)!;
+            foreach (var item in list)
+            {
+                kundeModel.KundeID = item.KundeID;
+                kundeModel.Navn = item.Navn;
+                kundeModel.Adresse = item.Adresse;
+
+            }
+            return View(kundeModel);
         }
 
         // GET: KunderController/Create
@@ -32,31 +43,46 @@ namespace Lager.Controllers
         // POST: KunderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(KundeModel kunde)
         {
             try
             {
+                Kundedata kundeData = new();
+                kundeData.AddCostummer(kunde.Navn!, kunde.Adresse!);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(kunde);
             }
         }
 
         // GET: KunderController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Kundedata kundeData = new();
+            KundeModel kundeModel = new();
+            string getProductByIdJson = kundeData.GetCustomer(id);
+            List<KundeModel> list = JsonSerializer.Deserialize<List<KundeModel>>(getProductByIdJson)!;
+            foreach (var item in list)
+            {
+                kundeModel.KundeID = item.KundeID;
+                kundeModel.Navn = item.Navn;
+                kundeModel.Adresse = item.Adresse;
+
+            }
+            return View(kundeModel);
         }
 
         // POST: KunderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, KundeModel kunde)
         {
             try
             {
+                Kundedata kundeData = new();
+                kundeData.UpdateCostumer(kunde.Navn!, kunde.Adresse, id);
                 return RedirectToAction(nameof(Index));
             }
             catch

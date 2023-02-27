@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Lager.Models
+﻿namespace Lager.Models
 {
     public class LagerModel
     {
