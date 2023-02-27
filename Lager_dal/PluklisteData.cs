@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Lager_dal
 {
@@ -31,7 +32,8 @@ namespace Lager_dal
         internal string _table2FakturaNummerColumn = "FakturaNummer";
         internal string _table2AntalColumn = "Antal";
 
-        public void AddPlugliste(int fakturaNummer, List<string> productId)
+
+        public void AddPlukliste(int fakturaNummer, int kundeId, string transpotor, int label, string print, List<Item> items)
         {
             try
             {
@@ -43,13 +45,14 @@ namespace Lager_dal
                     InitialCatalog = _initialCatalog
                 };
 
-                using SqlConnection connection = new(builder.ConnectionString);
-                foreach (string items in productId)
+                foreach (Item item in items)
                 {
-                    String sql = $"INSERT INTO {_tabel2} ([{_table2ProductIdColumn}], [{_adresseColumn}]) VALUES ('{items}', '{adresse}');";
+                    AddItemPlukliste(item, fakturaNummer);
                 }
 
-                String sql = $"INSERT INTO {_tabel2} ([{_table2ProductIdColumn}], [{_adresseColumn}]) VALUES ('{name}', '{adresse}');";
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"INSERT INTO {_tabel} ([{_tableFakturaNummerColumn}], [{_tableKundeIdColumn}], [{_tableForsendelseColumn}], [{_tableLabelColumn}], [{_tablePrintColumn}])" +
+                    $" VALUES ('{fakturaNummer}', {kundeId}, '{transpotor},  {label}, {print}');";
 
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
@@ -62,7 +65,7 @@ namespace Lager_dal
             }
         }
 
-        public string GetCustomers()
+        public void AddItemPlukliste(Item item, int fakturaNummer)
         {
             try
             {
@@ -75,7 +78,34 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"SELECT TOP (50) [{_kundeIDColumn}], [{_nameColumn}], [{_adresseColumn}] FROM {_tabel} FOR JSON AUTO;";
+                string sql;
+                sql = $"INSERT INTO {_tabel2} ([{_table2ProductIdColumn}], [{_table2AntalColumn}], [{_table2FakturaNummerColumn}]) VALUES ('{item.ProductID}', {fakturaNummer}, {item.Amount});";
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+        }
+
+        public string GetPlukliste()
+        {
+            try
+            {
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
+
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"SELECT FOR JSON AUTO;";
 
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
@@ -94,8 +124,8 @@ namespace Lager_dal
             }
         }
 
-        //Get Customer detail based on Customer id
-        public string GetCustomer(string customerId)
+        //Get Plukliste detail based on fakturaNummer
+        public string GetPluklisteItems(int fakturaNummer)
         {
             try
             {
@@ -108,7 +138,8 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"SELECT [{_kundeIDColumn}], [{_nameColumn}], [{_adresseColumn}] FROM {_tabel} WHERE {_kundeIDColumn}='{customerId}' FOR JSON AUTO;";
+                String sql = $"SELECT o.[{_table2ProductIdColumn}], l.[Description], o.[{_table2AntalColumn}], l.[Amount] FROM {_tabel2} AS o INNER JOIN Lager AS l ON (o.[{_table2ProductIdColumn}] = l.ProductID) WHERE FakturaNummer={fakturaNummer} FOR JSON AUTO;";
+
 
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
@@ -130,32 +161,32 @@ namespace Lager_dal
         }
 
         //Update Customer detail based on Customer id
-        public string UpdateCostumer(string name, string adresse, int kundeId)
-        {
-            try
-            {
-                SqlConnectionStringBuilder builder = new()
-                {
-                    DataSource = _ip,
-                    UserID = _user,
-                    Password = _password,
-                    InitialCatalog = _initialCatalog
-                };
+        //public string UpdateCostumer(string name, string adresse, int kundeId)
+        //{
+        //    try
+        //    {
+        //        SqlConnectionStringBuilder builder = new()
+        //        {
+        //            DataSource = _ip,
+        //            UserID = _user,
+        //            Password = _password,
+        //            InitialCatalog = _initialCatalog
+        //        };
 
-                using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]={adresse} WHERE {_kundeIDColumn}='{kundeId}';";
+        //        using SqlConnection connection = new(builder.ConnectionString);
+        //        String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]={adresse} WHERE {_kundeIDColumn}='{kundeId}';";
 
-                using SqlCommand command = new(sql, connection);
+        //        using SqlCommand command = new(sql, connection);
 
-                connection.Open();
-                command.ExecuteNonQuery();
-                return "success";
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.ToString());
-                return e.ToString();
-            }
-        }
+        //        connection.Open();
+        //        command.ExecuteNonQuery();
+        //        return "success";
+        //    }
+        //    catch (SqlException e)
+        //    {
+        //        Console.WriteLine(e.ToString());
+        //        return e.ToString();
+        //    }
+        //}
     }
 }
