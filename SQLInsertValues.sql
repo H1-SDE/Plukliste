@@ -7,7 +7,7 @@ DBCC CHECKIDENT ([Kunde], RESEED, 0);
 DBCC CHECKIDENT ([Ordre], RESEED, 0);
 
 INSERT INTO Kunde ([Navn], [Adresse]) VALUES 
-  ('Phillip Guldborg', 'JyllandOgAlbertslund 69'),
+  ('Philip Guldborg', 'JyllandOgAlbertslund 69'),
   ('Nima B', 'Øhavevej 4'),
   ('Navn3', 'Adresse 3');
 
