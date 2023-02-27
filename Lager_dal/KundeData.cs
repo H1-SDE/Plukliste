@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Lager_dal
 {
-    internal class Kundedata
+    public class Kundedata
     {
-        internal string _ip = "10.130.54.117";
+        internal string _ip = "10.130.54.80";
         internal string _password = "S3cur3P@ssW0rd!";
         internal string _user = "SA";
         internal string _initialCatalog = "Lager";
         internal string _tabel = "Kunde";
 
         //columns
-        internal string _nameColumn = "Name";
+        internal string _nameColumn = "Navn";
         internal string _adresseColumn = "Adresse";
         internal string _kundeIDColumn = "KundeID";
 
@@ -79,7 +79,7 @@ namespace Lager_dal
         }
 
         //Get Customer detail based on Customer id
-        public string GetCustomer(string customerId)
+        public string GetCustomer(int customerId)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]={adresse} WHERE {_kundeIDColumn}='{kundeId}';";
+                String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]='{adresse}' WHERE {_kundeIDColumn}={kundeId};";
 
                 using SqlCommand command = new(sql, connection);
 
