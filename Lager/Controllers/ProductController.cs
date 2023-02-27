@@ -10,8 +10,8 @@ namespace Lager.Controllers
         // GET: ProductController
         public ActionResult Index()
         {
-            LagerData lagerData = new();
-            string getProductJson = lagerData.GetProduct();
+            Kundedata kundedata = new();
+            string getProductJson = kundedata.GetCustomers();
             List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductJson)!;
             return View(list);
         }

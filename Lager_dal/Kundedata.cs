@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lager_dal
 {
-    internal class Kundedata
+    public class Kundedata
     {
         internal string _ip = "10.130.54.117";
         internal string _password = "S3cur3P@ssW0rd!";

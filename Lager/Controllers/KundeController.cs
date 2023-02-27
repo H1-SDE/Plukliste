@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Lager.Models;
+using Lager_dal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lager.Controllers
@@ -8,7 +10,10 @@ namespace Lager.Controllers
         // GET: KunderController
         public ActionResult Index()
         {
-            return View();
+            LagerData lagerData = new();
+            string getProductJson = lagerData.GetProduct();
+            List<LagerModel> list = JsonSerializer.Deserialize<List<LagerModel>>(getProductJson)!;
+            return View(list);
         }
 
         // GET: KunderController/Details/5
