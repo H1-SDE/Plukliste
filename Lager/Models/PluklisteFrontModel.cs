@@ -2,10 +2,10 @@
 {
     public class PluklisteFrontModel
     {
-        public string FakturaNummer { get; set; }
-        public int KundeId { get; set; }
-        public string Forsendelse { get; set; }
-        public int Label { get; set; }
-        public int Print { get; set; }
+        public int FakturaNummer { get; set; }
+        public int KundeID { get; set; }
+        public string? Forsendelse { get; set; }
+        public bool Label { get; set; }
+        public string? Print { get; set; }
     }
 }

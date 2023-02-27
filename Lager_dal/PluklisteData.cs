@@ -8,9 +8,9 @@ using System.Xml.Linq;
 
 namespace Lager_dal
 {
-    internal class PluglisteData
+    public class PluglisteData
     {
-        internal string _ip = "10.130.54.117";
+        internal string _ip = "10.130.54.80";
         internal string _password = "S3cur3P@ssW0rd!";
         internal string _user = "SA";
         internal string _initialCatalog = "Lager";
@@ -105,7 +105,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"SELECT FOR JSON AUTO;";
+                String sql = $"SELECT [{_tableFakturaNummerColumn}], [{_tableKundeIdColumn}], [{_tableForsendelseColumn}], [{_tableLabelColumn}], [{_tablePrintColumn}] FROM {_tabel} FOR JSON AUTO;";
 
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
