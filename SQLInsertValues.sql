@@ -16,7 +16,7 @@ INSERT INTO Lager ([ProductID], [Description], [Amount]) VALUES
   ('NETGEAR-CM1000', 'NETGEAR DOCSIS 3.1 (CM1000)', 856),
   ('COAX_CABEL_20M', 'Coax kabel rulle 20m', 612),
   ('F-CONN', 'F-connector 8mm', 976),
-  ('830012', 'Papkasse 170x105x60', 401);
+  ('#830012', 'Papkasse 170x105x60', 401);
 
 INSERT INTO Plukliste ([FakturaNummer], [KundeID], [Forsendelse], [Label], [Print]) VALUES 
   ('2521523', 1, 'Post Nord', 0, 'PRINT-OPGRADE'),
@@ -27,7 +27,7 @@ INSERT INTO Ordre ([ProductID], [Antal], [FakturaNummer]) VALUES
   ('NETGEAR-CM1000', 5, '2521523'),
   ('COAX_CABEL_20M', 3, '9468350'),
   ('F-CONN', 2, '2521523'),
-  ('830012', 7, '9468350');
+  ('#830012', 7, '9468350');
 
 SELECT * FROM [Lager].[dbo].[Lager];
 SELECT * FROM [Lager].[dbo].[Ordre];
