@@ -119,8 +119,6 @@ namespace Lager_dal
 
                 };
 
-                productId = productId.StartsWith("#") ? productId.Remove(0, 1) : productId;
-
                 using SqlConnection connection = new(builder.ConnectionString);
                 String sql = $"SELECT [Amount] FROM {_tabel} WHERE ProductID='{productId}';";
 
@@ -155,8 +153,6 @@ namespace Lager_dal
                 builder.UserID = _user;
                 builder.Password = _password;
                 builder.InitialCatalog = _initialCatalog;
-
-                productId = productId.StartsWith("#") ? productId.Remove(0, 1) : productId;
 
                 using SqlConnection connection = new SqlConnection(builder.ConnectionString);
                 String sql = $"UPDATE {_tabel} SET [Description]='{title}', [Amount]={amount} WHERE ProductID='{productId}';";

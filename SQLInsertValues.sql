@@ -18,9 +18,9 @@ INSERT INTO Lager ([ProductID], [Description], [Amount]) VALUES
   ('F-CONN', 'F-connector 8mm', 976),
   ('830012', 'Papkasse 170x105x60', 401);
 
-INSERT INTO Plukliste ([FakturaNummer], [KundeID], [Forsendelse]) VALUES 
-  ('2521523', 1, 'Post Nord'),
-  ('9468350', 2, 'Post Nord');
+INSERT INTO Plukliste ([FakturaNummer], [KundeID], [Forsendelse], [Label], [Print]) VALUES 
+  ('2521523', 1, 'Post Nord', 0, 'PRINT-OPGRADE'),
+  ('9468350', 2, 'GLS', 1, 'PRINT-OPSIGELSE');
 
 INSERT INTO Ordre ([ProductID], [Antal], [FakturaNummer]) VALUES 
   ('TX-302587', 1, '2521523'),
@@ -29,7 +29,7 @@ INSERT INTO Ordre ([ProductID], [Antal], [FakturaNummer]) VALUES
   ('F-CONN', 2, '2521523'),
   ('830012', 7, '9468350');
 
-SELECT * FROM [Lager].[dbo].[Kunde];
 SELECT * FROM [Lager].[dbo].[Lager];
 SELECT * FROM [Lager].[dbo].[Ordre];
 SELECT * FROM [Lager].[dbo].[Plukliste];
+SELECT * FROM [Lager].[dbo].[Kunde];
