@@ -92,7 +92,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"SELECT [{_kundeIDColumn}], [{_nameColumn}], [{_adresseColumn}] FROM {_tabel} WHERE ProductID='{customerId}' FOR JSON AUTO;";
+                String sql = $"SELECT [{_kundeIDColumn}], [{_nameColumn}], [{_adresseColumn}] FROM {_tabel} WHERE {_kundeIDColumn}='{customerId}' FOR JSON AUTO;";
 
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
@@ -127,7 +127,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]={adresse} WHERE ProductID='{kundeId}';";
+                String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]={adresse} WHERE {_kundeIDColumn}='{kundeId}';";
 
                 using SqlCommand command = new(sql, connection);
 
