@@ -9,14 +9,14 @@ namespace Lager_dal
 {
     public class Kundedata
     {
-        internal string _ip = "10.130.54.117";
+        internal string _ip = "10.130.54.80";
         internal string _password = "S3cur3P@ssW0rd!";
         internal string _user = "SA";
         internal string _initialCatalog = "Lager";
         internal string _tabel = "Kunde";
 
         //columns
-        internal string _nameColumn = "Name";
+        internal string _nameColumn = "Navn";
         internal string _adresseColumn = "Adresse";
         internal string _kundeIDColumn = "KundeID";
 

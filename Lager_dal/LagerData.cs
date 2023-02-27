@@ -5,7 +5,7 @@ namespace Lager_dal
 {
     public class LagerData
     {
-        internal string _ip = "10.130.54.117";
+        internal string _ip = "10.130.54.80";
         internal string _password = "S3cur3P@ssW0rd!";
         internal string _user = "SA";
         internal string _initialCatalog = "Lager";
@@ -67,7 +67,7 @@ namespace Lager_dal
             catch (SqlException e)
             {
                 Console.WriteLine(e.ToString());
-                return "";
+                return e.ToString();
             }
         }
 
