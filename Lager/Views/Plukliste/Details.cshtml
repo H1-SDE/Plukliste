@@ -25,7 +25,7 @@
         </div>
         <div class="box1">
             <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.KundeID)</h2>
-            <p class="auto">@item.KundeID</p>
+            <a class="auto" href="@Url.Action("Edit", "Kunde", new { id=item.KundeID })">@item.KundeID</a>
         </div>
         <div class="box1">
             <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.Forsendelse)</h2>

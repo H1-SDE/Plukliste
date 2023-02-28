@@ -29,13 +29,13 @@ namespace Lager.Controllers
             {
                 item.Rest = item.Amount - item.Antal;
             }
-            dynamic mymodel = new ExpandoObject();
-            mymodel.details = detailList;
+            dynamic finalModel = new ExpandoObject();
+            finalModel.details = detailList;
 
             string getPluklisteJson = pluklisteData.GetPlukliste(id);
             List<PluklisteFrontModel> pluklisteList = JsonSerializer.Deserialize<List<PluklisteFrontModel>>(getPluklisteJson)!;
-            mymodel.plukliste = pluklisteList;
-            return View(mymodel);
+            finalModel.plukliste = pluklisteList;
+            return View(finalModel);
         }
 
         // GET: PluklistController/Create
@@ -62,16 +62,40 @@ namespace Lager.Controllers
         // GET: PluklistController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            PluglisteData pluklisteData = new();
+            PluklisteFrontModel pluklisteFrontModel = new();
+            string getPluklisteByIdJson = pluklisteData.GetPlukliste(id);
+            List<PluklisteFrontModel> list = JsonSerializer.Deserialize<List<PluklisteFrontModel>>(getPluklisteByIdJson)!;
+            foreach (var item in list)
+            {
+                pluklisteFrontModel.FakturaNummer = item.FakturaNummer;
+                pluklisteFrontModel.Label = item.Label;
+                pluklisteFrontModel.Print = item.Print;
+                pluklisteFrontModel.KundeID= item.KundeID;
+                pluklisteFrontModel.Forsendelse = item.Forsendelse;
+
+            }
+            dynamic finalModel = new ExpandoObject();
+            finalModel.details = list;
+
+            Kundedata kundeData = new();
+            string getCustomerJson = kundeData.GetCustomers();
+            List<KundeModel> kundeList = JsonSerializer.Deserialize<List<KundeModel>>(getCustomerJson)!;
+            finalModel.customer = kundeList;
+            finalModel.kundeId = id;
+
+            return View(finalModel);
         }
 
         // POST: PluklistController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, PluklisteFrontModel pluklisteFrontModel)
         {
             try
             {
+                PluglisteData pluklisteData = new();
+                pluklisteData.UpdateOrdre(id, pluklisteFrontModel.KundeID, pluklisteFrontModel.Forsendelse!, pluklisteFrontModel.Label, pluklisteFrontModel.Print!);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -99,6 +123,12 @@ namespace Lager.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult EditKunder(int id)
+        {
+            KundeController kundeController = new();
+            return View(kundeController.Edit(id));
         }
     }
 }

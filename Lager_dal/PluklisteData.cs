@@ -192,33 +192,33 @@ namespace Lager_dal
             }
         }
 
-        //Update Customer detail based on Customer id
-        //public string UpdateCostumer(string name, string adresse, int kundeId)
-        //{
-        //    try
-        //    {
-        //        SqlConnectionStringBuilder builder = new()
-        //        {
-        //            DataSource = _ip,
-        //            UserID = _user,
-        //            Password = _password,
-        //            InitialCatalog = _initialCatalog
-        //        };
+        //Update Plukliste detail based on fakture nummer
+        public string UpdateOrdre(int fakturanummer, int kundeID, string forsendelse, bool label, string print)
+        {
+            try
+            {
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
 
-        //        using SqlConnection connection = new(builder.ConnectionString);
-        //        String sql = $"UPDATE {_tabel} SET [{_nameColumn}]='{name}', [{_adresseColumn}]={adresse} WHERE {_kundeIDColumn}='{kundeId}';";
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"UPDATE {_tabel} SET [{_tableKundeIdColumn}]={kundeID}, [{_tableForsendelseColumn}]='{forsendelse}', [{_tableLabelColumn}]={label}, [{_tablePrintColumn}]={print}  WHERE {_tableFakturaNummerColumn}='{fakturanummer}';";
 
-        //        using SqlCommand command = new(sql, connection);
+                using SqlCommand command = new(sql, connection);
 
-        //        connection.Open();
-        //        command.ExecuteNonQuery();
-        //        return "success";
-        //    }
-        //    catch (SqlException e)
-        //    {
-        //        Console.WriteLine(e.ToString());
-        //        return e.ToString();
-        //    }
-        //}
+                connection.Open();
+                command.ExecuteNonQuery();
+                return "success";
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                return e.ToString();
+            }
+        }
     }
 }

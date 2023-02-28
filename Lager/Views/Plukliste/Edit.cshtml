@@ -1,0 +1,67 @@
+﻿@using Lager;
+@model dynamic
+
+@*@model Lager.Models.PluklisteFrontModel*@
+
+@{
+    ViewData["Title"] = "Ordre -> Edit";
+}
+
+@*@foreach (KundeModel item in Model.customer)
+{
+    @Html.DropDownListFor(Model.KundeID,
+            new SelectList(Enum.GetValues(typeof(Model.customer))),
+            "Select Gender")
+}*@
+
+
+<h1>Edit</h1>
+
+<h4>Ordre</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @foreach (PluklisteFrontModel item in Model.details)
+        {
+            <div class="form-group">
+                    <label asp-for="@item.FakturaNummer" class="control-label"></label>
+                    <input asp-for="@item.FakturaNummer" class="form-control" disabled />
+                    <span asp-validation-for="@item.FakturaNummer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="@item.KundeID" class="control-label"></label>
+                    <input asp-for="@item.KundeID" class="form-control" />
+                    <span asp-validation-for="@item.KundeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@item.Forsendelse" class="control-label"></label>
+                <input asp-for="@item.Forsendelse" class="form-control" />
+                <span asp-validation-for="@item.Forsendelse" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                        <input class="form-check-input" asp-for="@item.Label" /> @Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.Label)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="@item.Print" class="control-label"></label>
+                <input asp-for="@item.Print" class="form-control" />
+                <span asp-validation-for="@item.Print" class="text-danger"></span>
+            </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
