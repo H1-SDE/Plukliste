@@ -1,0 +1,95 @@
+﻿@using Lager;
+@model dynamic
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@foreach (var item in Model.plukliste)
+{
+    <style>
+        .auto {
+            width: auto;
+            margin: auto;
+        }
+        .box1 {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h1>Details</h1>
+        <div class="box1">
+            <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.FakturaNummer)</h2>
+            <p class="auto">@item.FakturaNummer</p>
+        </div>
+        <div class="box1">
+            <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.KundeID)</h2>
+            <p class="auto">@item.KundeID</p>
+        </div>
+        <div class="box1">
+            <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.Forsendelse)</h2>
+            <p class="auto">@item.Forsendelse</p>
+        </div>
+        <div class="box1">
+            <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.Label)</h2>
+            <p class="auto">@item.Label</p>
+        </div>
+        <div class="box1">
+            <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.Print)</h2>
+            <p class="auto">@item.Print</p>
+        </div>
+    </div>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.ProductID)
+            </th>
+            <th>
+                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Description)
+            </th>
+            <th>
+                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Antal)
+            </th>
+            <th>
+                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Rest)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.details)
+        {
+            <tr>
+                <td>
+                    @item.ProductID
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    @item.Antal
+                </td>
+                <td>
+                    @item.Amount
+                </td>
+                <td>
+                    @item.Rest
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -7,5 +7,7 @@
         public string? Forsendelse { get; set; }
         public bool Label { get; set; }
         public string? Print { get; set; }
+
+        public enum PlukTypes { FakturaNummer, KundeID, Forsendelse, Label, Print }
     }
 }

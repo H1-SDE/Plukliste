@@ -2,7 +2,9 @@
 using Lager_dal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 using System.Text.Json;
+using static Lager.Models.PluklisteFrontModel;
 
 namespace Lager.Controllers
 {
@@ -20,7 +22,20 @@ namespace Lager.Controllers
         // GET: PluklistController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            PluglisteData pluklisteData = new();
+            string getPluklistItemsByIdJson = pluklisteData.GetPluklisteItems(id);
+            List<PluklistItemsModel> detailList = JsonSerializer.Deserialize<List<PluklistItemsModel>>(getPluklistItemsByIdJson)!;
+            foreach(var item in detailList)
+            {
+                item.Rest = item.Amount - item.Antal;
+            }
+            dynamic mymodel = new ExpandoObject();
+            mymodel.details = detailList;
+
+            string getPluklisteJson = pluklisteData.GetPlukliste(id);
+            List<PluklisteFrontModel> pluklisteList = JsonSerializer.Deserialize<List<PluklisteFrontModel>>(getPluklisteJson)!;
+            mymodel.plukliste = pluklisteList;
+            return View(mymodel);
         }
 
         // GET: PluklistController/Create

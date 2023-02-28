@@ -124,6 +124,38 @@ namespace Lager_dal
             }
         }
 
+        public string GetPlukliste(int fakturaNummer)
+        {
+            try
+            {
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
+
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"SELECT [{_tableFakturaNummerColumn}], [{_tableKundeIdColumn}], [{_tableForsendelseColumn}], [{_tableLabelColumn}], [{_tablePrintColumn}] FROM {_tabel} WHERE FakturaNummer={fakturaNummer} FOR JSON AUTO;";
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                var jsonResult = new StringBuilder();
+                SqlDataReader oReader = command.ExecuteReader();
+                while (oReader.Read())
+                {
+                    jsonResult.Append(oReader[0]);
+                }
+                return jsonResult.ToString();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                return "";
+            }
+        }
+
         //Get Plukliste detail based on fakturaNummer
         public string GetPluklisteItems(int fakturaNummer)
         {
@@ -138,7 +170,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"SELECT o.[{_table2ProductIdColumn}], l.[Description], o.[{_table2AntalColumn}], l.[Amount] FROM {_tabel2} AS o INNER JOIN Lager AS l ON (o.[{_table2ProductIdColumn}] = l.ProductID) WHERE FakturaNummer={fakturaNummer} FOR JSON AUTO;";
+                String sql = $"SELECT * FROM (SELECT o.[{_table2ProductIdColumn}], l.[Description], o.[{_table2AntalColumn}], l.[Amount] FROM {_tabel2} AS o INNER JOIN Lager AS l ON (o.[{_table2ProductIdColumn}] = l.ProductID) WHERE FakturaNummer={fakturaNummer}) howisthisworking FOR JSON AUTO;";
 
 
                 using SqlCommand command = new(sql, connection);

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Lager.Models.PluklisteFrontModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Plukliste";
 }
 
 <h1>Index</h1>
@@ -50,7 +50,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.FakturaNummer}) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
