@@ -51,7 +51,7 @@ namespace Lager_dal
                 }
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"INSERT INTO {_tabel} ([{_tableFakturaNummerColumn}], [{_tableKundeIdColumn}], [{_tableForsendelseColumn}], [{_tableLabelColumn}], [{_tablePrintColumn}])" +
+                String sql = $"INSERT INTO [{_tabel}] ([{_tableFakturaNummerColumn}], [{_tableKundeIdColumn}], [{_tableForsendelseColumn}], [{_tableLabelColumn}], [{_tablePrintColumn}])" +
                     $" VALUES ('{fakturaNummer}', {kundeId}, '{transpotor},  {label}, {print}');";
 
                 using SqlCommand command = new(sql, connection);
@@ -79,7 +79,7 @@ namespace Lager_dal
 
                 using SqlConnection connection = new(builder.ConnectionString);
                 string sql;
-                sql = $"INSERT INTO {_tabel2} ([{_table2ProductIdColumn}], [{_table2AntalColumn}], [{_table2FakturaNummerColumn}]) VALUES ('{item.ProductID}', {fakturaNummer}, {item.Amount});";
+                sql = $"INSERT INTO [{_tabel2}] ([{_table2ProductIdColumn}], [{_table2AntalColumn}], [{_table2FakturaNummerColumn}]) VALUES ('{item.ProductID}', {fakturaNummer}, {item.Amount});";
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -193,7 +193,7 @@ namespace Lager_dal
         }
 
         //Update Plukliste detail based on fakture nummer
-        public string UpdateOrdre(int fakturanummer, int kundeID, string forsendelse, bool label, string print)
+        public string UpdateOrdre(int fakturanummer, int kundeid, string forsendelse, bool label, string print)
         {
             try
             {
@@ -206,7 +206,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"UPDATE {_tabel} SET [{_tableKundeIdColumn}]={kundeID}, [{_tableForsendelseColumn}]='{forsendelse}', [{_tableLabelColumn}]={label}, [{_tablePrintColumn}]={print}  WHERE {_tableFakturaNummerColumn}='{fakturanummer}';";
+                String sql = $"UPDATE [{_tabel}] SET [{_tableKundeIdColumn}]={kundeid}, [{_tableForsendelseColumn}]='{forsendelse}', [{_tableLabelColumn}]={Convert.ToInt32(label)}, [{_tablePrintColumn}]='{print}'  WHERE [{_tableFakturaNummerColumn}]={fakturanummer};";
 
                 using SqlCommand command = new(sql, connection);
 

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Text.Json;
 using static Lager.Models.PluklisteFrontModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
 
 namespace Lager.Controllers
 {
@@ -66,36 +68,50 @@ namespace Lager.Controllers
             PluklisteFrontModel pluklisteFrontModel = new();
             string getPluklisteByIdJson = pluklisteData.GetPlukliste(id);
             List<PluklisteFrontModel> list = JsonSerializer.Deserialize<List<PluklisteFrontModel>>(getPluklisteByIdJson)!;
+            dynamic finalModel = new ExpandoObject();
             foreach (var item in list)
             {
                 pluklisteFrontModel.FakturaNummer = item.FakturaNummer;
                 pluklisteFrontModel.Label = item.Label;
                 pluklisteFrontModel.Print = item.Print;
-                pluklisteFrontModel.KundeID= item.KundeID;
+                pluklisteFrontModel.KundeID = item.KundeID;
+                finalModel.kundeId = item.KundeID;
                 pluklisteFrontModel.Forsendelse = item.Forsendelse;
 
             }
-            dynamic finalModel = new ExpandoObject();
             finalModel.details = list;
 
             Kundedata kundeData = new();
+            KundeModel kundeModel = new();
             string getCustomerJson = kundeData.GetCustomers();
             List<KundeModel> kundeList = JsonSerializer.Deserialize<List<KundeModel>>(getCustomerJson)!;
-            finalModel.customer = kundeList;
-            finalModel.kundeId = id;
-
+            List<SelectListItem> kundeList1 = new List<SelectListItem>();
+            foreach (var item in kundeList)
+            {
+                kundeList1.Add(new SelectListItem()
+                {
+                    Text = item.KundeID.ToString(),
+                    Value = item.KundeID.ToString()
+                });
+                kundeModel.KundeID = item.KundeID;
+                finalModel.customer = new SelectList(kundeList1, "Value", "Text");
+            }
             return View(finalModel);
         }
 
         // POST: PluklistController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, PluklisteFrontModel pluklisteFrontModel)
+        public ActionResult Edit(int id, IFormCollection pluklisteFrontModel)
         {
             try
             {
+                int kundeId = int.Parse(pluklisteFrontModel["item.KundeID"]!);
+                bool label = bool.Parse(pluklisteFrontModel["item.Label"][0]!);
+                string forsendelse = pluklisteFrontModel["item.Forsendelse"]!;
+                string print = pluklisteFrontModel["item.Print"]!;
                 PluglisteData pluklisteData = new();
-                pluklisteData.UpdateOrdre(id, pluklisteFrontModel.KundeID, pluklisteFrontModel.Forsendelse!, pluklisteFrontModel.Label, pluklisteFrontModel.Print!);
+                pluklisteData.UpdateOrdre(id, kundeId, forsendelse, label, print);
                 return RedirectToAction(nameof(Index));
             }
             catch

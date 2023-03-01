@@ -1,4 +1,4 @@
-DROP TABLE [Lager].[dbo].[Ordre];DROP TABLE [Lager].[dbo].[Plukliste];DROP TABLE [Lager].[dbo].[Kunde]; DROP TABLE [Lager].[dbo].[Lager];
+--DROP TABLE [Lager].[dbo].[Ordre];DROP TABLE [Lager].[dbo].[Plukliste];DROP TABLE [Lager].[dbo].[Kunde]; DROP TABLE [Lager].[dbo].[Lager];
 
 if not exists (select * from sysobjects where name='Lager' and xtype='U')
 CREATE TABLE Lager (
@@ -29,4 +29,16 @@ CREATE TABLE Ordre (
 	[ProductID] varchar(255) FOREIGN KEY REFERENCES Lager(ProductID),
 	[FakturaNummer] int FOREIGN KEY REFERENCES Plukliste(FakturaNummer),
 	[Antal] int
+);
+
+if not exists (select * from sysobjects where name='Carriers' and xtype='U')
+CREATE TABLE Carriers (
+	[Key] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+	[Options] varchar(255)
+);
+
+if not exists (select * from sysobjects where name='PrintOptions' and xtype='U')
+CREATE TABLE PrintOptions (
+	[Key] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+	[Options] varchar(255)
 );

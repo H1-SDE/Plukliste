@@ -29,6 +29,16 @@ INSERT INTO Ordre ([ProductID], [Antal], [FakturaNummer]) VALUES
   ('F-CONN', 2, '2521523'),
   ('#830012', 7, '9468350');
 
+INSERT INTO Carriers ([options]) VALUES 
+  ('GLS'),
+  ('Post Nord'),
+  ('DAO');
+
+INSERT INTO PrintOptions ([options]) VALUES 
+  ('PRINT-OPGRADE'),
+  ('PRINT-OPSIGELSE'),
+  ('PRINT-WELCOME');
+
 SELECT * FROM [Lager].[dbo].[Lager];
 SELECT * FROM [Lager].[dbo].[Ordre];
 SELECT * FROM [Lager].[dbo].[Plukliste];
