@@ -7,6 +7,7 @@ using System.Text.Json;
 using static Lager.Models.PluklisteFrontModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace Lager.Controllers
 {
@@ -53,6 +54,45 @@ namespace Lager.Controllers
         {
             try
             {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: PluklistController/AddItem
+        public ActionResult AddItem(int id)
+        {
+            LagerData lagerData = new();
+            string getLagerDataJson = lagerData.GetProduct();
+            PluklistItemModel pluklistItemModel = new();
+            List<LagerModel> productsList = JsonSerializer.Deserialize<List<LagerModel>>(getLagerDataJson)!;
+            List<SelectListItem> SelectList = new();
+            foreach (var item in productsList)
+            {
+                SelectList.Add(new SelectListItem()
+                {
+                    Text = item.ProductID!.ToString(),
+                    Value = item.ProductID!.ToString()
+                });
+                pluklistItemModel.SelectListItems = new SelectList(SelectList, "Value", "Text");
+                pluklistItemModel.FakturaNummer = id;
+            }
+
+            return View(pluklistItemModel);
+        }
+
+        // POST: PluklistController/AddItem
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddItem(int id, PluklistItemModel pluklistItemModel)
+        {
+            try
+            {
+                PluglisteData pluklisteData = new();
+                pluklisteData.AddItemPlukliste(pluklistItemModel.ProductID!, pluklistItemModel.Antal, id);
                 return RedirectToAction(nameof(Index));
             }
             catch

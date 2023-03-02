@@ -45,7 +45,8 @@
 
 
     <p>
-        <a asp-action="Create">Create New</a>
+        <a class="auto" href="@Url.Action("AddItem", "Plukliste", new { id=item.FakturaNummer })">Add Product</a>
+        @*<a asp-route-id="@item.FakturaNummer" asp-action="AddItem">Add Product</a>*@
     </p>
     <table class="table">
         <thead>

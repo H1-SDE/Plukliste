@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -45,11 +46,6 @@ namespace Lager_dal
                     InitialCatalog = _initialCatalog
                 };
 
-                foreach (Item item in items)
-                {
-                    AddItemPlukliste(item, fakturaNummer);
-                }
-
                 using SqlConnection connection = new(builder.ConnectionString);
                 String sql = $"INSERT INTO [{_tabel}] ([{_tableFakturaNummerColumn}], [{_tableKundeIdColumn}], [{_tableForsendelseColumn}], [{_tableLabelColumn}], [{_tablePrintColumn}])" +
                     $" VALUES ('{fakturaNummer}', {kundeId}, '{transpotor},  {label}, {print}');";
@@ -65,7 +61,7 @@ namespace Lager_dal
             }
         }
 
-        public void AddItemPlukliste(Item item, int fakturaNummer)
+        public void AddItemPlukliste(string productID, int antal, int fakturaNummer)
         {
             try
             {
@@ -78,8 +74,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                string sql;
-                sql = $"INSERT INTO [{_tabel2}] ([{_table2ProductIdColumn}], [{_table2AntalColumn}], [{_table2FakturaNummerColumn}]) VALUES ('{item.ProductID}', {fakturaNummer}, {item.Amount});";
+                string sql = $"INSERT INTO [{_tabel2}] ([{_table2ProductIdColumn}], [{_table2AntalColumn}], [{_table2FakturaNummerColumn}]) VALUES ('{productID}', {antal}, {fakturaNummer});";
                 using SqlCommand command = new(sql, connection);
                 connection.Open();
                 command.ExecuteNonQuery();
