@@ -52,7 +52,7 @@ namespace Lager_dal
                 };
 
                 using SqlConnection connection = new(builder.ConnectionString);
-                String sql = $"SELECT TOP (50) [ProductID], [Description], [Amount] FROM {_tabel} FOR JSON AUTO;";
+                String sql = $"SELECT [ProductID], [Description], [Amount] FROM {_tabel} FOR JSON AUTO;";
 
                 using SqlCommand command = new(sql, connection);
                 connection.Open();

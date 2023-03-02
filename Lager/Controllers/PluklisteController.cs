@@ -120,9 +120,6 @@ namespace Lager.Controllers
                 kundeModel.KundeID = item.KundeID;
                 finalModel.customer = new SelectList(kundeList1, "Value", "Text");
             }
-
-
-
             return View(finalModel);
         }
 
@@ -130,6 +127,63 @@ namespace Lager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection pluklisteFrontModel)
+        {
+            try
+            {
+                int kundeId = int.Parse(pluklisteFrontModel["item.KundeID"]!);
+                bool label = bool.Parse(pluklisteFrontModel["item.Label"][0]!);
+                string forsendelse = pluklisteFrontModel["item.Forsendelse"]!;
+                string print = pluklisteFrontModel["item.Print"]!;
+                PluglisteData pluklisteData = new();
+                pluklisteData.UpdateOrdre(id, kundeId, forsendelse, label, print);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        // GET: PluklistController/EditPlukItem/5
+        public ActionResult EditItem(int id, string productId)
+        {
+            PluglisteData pluklisteData = new();
+            PluklistItemModel pluklistItemModel = new();
+            string getJson = pluklisteData.GetPluklisteItem(id, productId);
+            List<PluklistItemModel> list = JsonSerializer.Deserialize<List<PluklistItemModel>>(getJson)!;
+            foreach (var item in list)
+            {
+                pluklistItemModel.ProductID = item.ProductID;
+                pluklistItemModel.Description = item.Description;
+                pluklistItemModel.Antal = item.Antal;
+
+            }
+            dynamic finalModel = new ExpandoObject();
+            finalModel.details = list;
+
+            LagerData lagerData = new();
+            LagerModel lagerModel = new();
+            string getLagerDataJson = lagerData.GetProduct();
+            List<LagerModel> productsList = JsonSerializer.Deserialize<List<LagerModel>>(getLagerDataJson)!;
+            List<SelectListItem> SelectList = new();
+            foreach (var item in productsList)
+            {
+                SelectList.Add(new SelectListItem()
+                {
+                    Text = item.ProductID!.ToString(),
+                    Value = item.ProductID!.ToString()
+                });
+                finalModel.products = new SelectList(SelectList, "Value", "Text");
+            }
+
+            return View(finalModel);
+        }
+
+        // POST: PluklistController/EditPlukItem/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditItem(int id, IFormCollection pluklisteFrontModel)
         {
             try
             {

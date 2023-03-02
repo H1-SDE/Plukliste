@@ -192,6 +192,41 @@ namespace Lager_dal
             }
         }
 
+        public string GetPluklisteItem(int fakturaNummer, string productId)
+        {
+            try
+            {
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
+
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"SELECT * FROM (SELECT o.[{_table2ProductIdColumn}], l.[Description], o.[{_table2AntalColumn}] FROM {_tabel2} AS o INNER JOIN Lager AS l ON (o.[{_table2ProductIdColumn}] = l.ProductID) WHERE [{_table2FakturaNummerColumn}]={fakturaNummer} AND l.[ProductID]='{productId}') howisthisworking FOR JSON AUTO;";
+
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                var jsonResult = new StringBuilder();
+                SqlDataReader oReader = command.ExecuteReader();
+                while (oReader.Read())
+                {
+                    int i = 0;
+                    jsonResult.Append(oReader[i]);
+                    i++;
+                }
+                return jsonResult.ToString();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                return "";
+            }
+        }
+
         //Update Plukliste detail based on fakture nummer
         public string UpdateOrdre(int fakturanummer, int kundeid, string forsendelse, bool label, string print)
         {

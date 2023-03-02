@@ -14,6 +14,7 @@
             width: auto;
             margin: auto;
         }
+
         .box1 {
             display: flex;
             flex-direction: column;
@@ -41,59 +42,61 @@
             <p class="auto">@item.Print</p>
         </div>
     </div>
-}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.ProductID)
-            </th>
-            <th>
-                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Description)
-            </th>
-            <th>
-                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Antal)
-            </th>
-            <th>
-                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Rest)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.details)
-        {
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @item.ProductID
-                </td>
-                <td>
-                    @item.Description
-                </td>
-                <td>
-                    @item.Antal
-                </td>
-                <td>
-                    @item.Amount
-                </td>
-                <td>
-                    @item.Rest
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
+                <th>
+                    @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.ProductID)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Antal)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameForInnerType((PluklistItemsModel pluklistItemsModel) => pluklistItemsModel.Rest)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var items in Model.details)
+            {
+                <tr>
+                    <td>
+                        @items.ProductID
+                    </td>
+                    <td>
+                        @items.Description
+                    </td>
+                    <td>
+                        @items.Antal
+                    </td>
+                    <td>
+                        @items.Amount
+                    </td>
+                    <td>
+                        @items.Rest
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditItem", new { id=item.FakturaNummer, productId=items.ProductID }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
 
 <div>
     <a asp-action="Index">Back to List</a>
