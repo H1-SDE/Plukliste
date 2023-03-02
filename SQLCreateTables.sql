@@ -1,4 +1,4 @@
---DROP TABLE [Lager].[dbo].[Ordre];DROP TABLE [Lager].[dbo].[Plukliste];DROP TABLE [Lager].[dbo].[Kunde]; DROP TABLE [Lager].[dbo].[Lager];
+--DROP TABLE [Lager].[dbo].[Ordre];DROP TABLE [Lager].[dbo].[Plukliste];DROP TABLE [Lager].[dbo].[Kunde]; DROP TABLE [Lager].[dbo].[Lager]; DROP TABLE [Lager].[dbo].[Options]
 
 if not exists (select * from sysobjects where name='Lager' and xtype='U')
 CREATE TABLE Lager (
@@ -31,14 +31,9 @@ CREATE TABLE Ordre (
 	[Antal] int
 );
 
-if not exists (select * from sysobjects where name='Carriers' and xtype='U')
-CREATE TABLE Carriers (
+if not exists (select * from sysobjects where name='Options' and xtype='U')
+CREATE TABLE [Options] (
 	[Key] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
-	[Options] varchar(255)
-);
-
-if not exists (select * from sysobjects where name='PrintOptions' and xtype='U')
-CREATE TABLE PrintOptions (
-	[Key] int NOT NULL IDENTITY(1, 1) PRIMARY KEY,
-	[Options] varchar(255)
+	[Carriers] varchar(255)  NOT NULL,
+	[Print] varchar(255) NOT NULL
 );
