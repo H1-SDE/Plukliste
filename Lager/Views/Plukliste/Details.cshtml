@@ -5,6 +5,8 @@
     ViewData["Title"] = "Plukliste";
 }
 
+
+<h1 style="display: flex; justify-content: center">Plukliste</h1>
 @foreach (var item in Model.plukliste)
 {
     <style>
@@ -18,7 +20,6 @@
         }
     </style>
     <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <h1>Plukliste</h1>
         <div class="box1">
             <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.FakturaNummer)</h2>
             <p class="auto">@item.FakturaNummer</p>
