@@ -227,6 +227,45 @@ namespace Lager_dal
             }
         }
 
+        public string UpdateItem(int fakturanummer, string productId, int amount)
+        {
+            try
+            {
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
+
+                using SqlConnection connection = new(builder.ConnectionString);
+                string sqlselect = $"SELECT [{_table2OrdreIdColumn}] FROM [{_tabel2}] WHERE [{_tableFakturaNummerColumn}]={fakturanummer} and [{_table2ProductIdColumn}]='{productId}';";
+                using SqlCommand selectCommand = new(sqlselect, connection);
+
+                connection.Open();
+                SqlDataReader oReader = selectCommand.ExecuteReader();
+                int ordreId = -1;
+                while (oReader.Read()) {
+
+                    ordreId = (int)oReader[0]; 
+                }
+                connection.Close();
+
+                string sql = $"UPDATE [{_tabel2}] SET [{_table2ProductIdColumn}]='{productId}', [{_table2AntalColumn}]={amount} WHERE [{_table2OrdreIdColumn}]={ordreId};";
+                using SqlCommand updateCommand = new(sql, connection);
+                connection.Open();
+                updateCommand.ExecuteNonQuery();
+
+                return "success";
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                return e.ToString();
+            }
+        }
+
         //Update Plukliste detail based on fakture nummer
         public string UpdateOrdre(int fakturanummer, int kundeid, string forsendelse, bool label, string print)
         {

@@ -163,7 +163,6 @@ namespace Lager.Controllers
             finalModel.details = list;
 
             LagerData lagerData = new();
-            LagerModel lagerModel = new();
             string getLagerDataJson = lagerData.GetProduct();
             List<LagerModel> productsList = JsonSerializer.Deserialize<List<LagerModel>>(getLagerDataJson)!;
             List<SelectListItem> SelectList = new();
@@ -177,22 +176,22 @@ namespace Lager.Controllers
                 finalModel.products = new SelectList(SelectList, "Value", "Text");
             }
 
+            finalModel.id = id;
+
             return View(finalModel);
         }
 
         // POST: PluklistController/EditPlukItem/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditItem(int id, IFormCollection pluklisteFrontModel)
+        public ActionResult EditItem(int id, IFormCollection pluklisteItemModel)
         {
             try
             {
-                int kundeId = int.Parse(pluklisteFrontModel["item.KundeID"]!);
-                bool label = bool.Parse(pluklisteFrontModel["item.Label"][0]!);
-                string forsendelse = pluklisteFrontModel["item.Forsendelse"]!;
-                string print = pluklisteFrontModel["item.Print"]!;
+                string productId = pluklisteItemModel["item.ProductID"]!;
+                int amount = int.Parse(pluklisteItemModel["item.Antal"]!);
                 PluglisteData pluklisteData = new();
-                pluklisteData.UpdateOrdre(id, kundeId, forsendelse, label, print);
+                pluklisteData.UpdateItem(id, productId!, amount);
                 return RedirectToAction(nameof(Index));
             }
             catch
