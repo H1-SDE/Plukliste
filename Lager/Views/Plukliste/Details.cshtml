@@ -45,8 +45,7 @@
 
 
     <p>
-        <a class="auto" href="@Url.Action("AddItem", "Plukliste", new { id=item.FakturaNummer })">Add Product</a>
-        @*<a asp-route-id="@item.FakturaNummer" asp-action="AddItem">Add Product</a>*@
+        <a class="auto d-print-none" href="@Url.Action("AddItem", "Plukliste", new { id=item.FakturaNummer })">Add Product</a>
     </p>
     <table class="table">
         <thead>
@@ -88,7 +87,7 @@
                     <td>
                         @items.Rest
                     </td>
-                    <td>
+                    <td class="d-print-none">
                         @Html.ActionLink("Edit", "EditItem", new { id=item.FakturaNummer, productId=items.ProductID }) |
                         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                     </td>
@@ -100,5 +99,5 @@
 }
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="d-print-none">Back to List</a>
 </div>

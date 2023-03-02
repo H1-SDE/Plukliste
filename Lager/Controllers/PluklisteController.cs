@@ -1,13 +1,9 @@
 ﻿using Lager.Models;
 using Lager_dal;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using System.Text.Json;
-using static Lager.Models.PluklisteFrontModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json.Linq;
-using System.Text;
 
 namespace Lager.Controllers
 {
