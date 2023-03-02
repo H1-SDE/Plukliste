@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="@item.Forsendelse" class="control-label"></label>
-                    <input asp-for="@item.Forsendelse" class="form-control" />
+                    <select asp-for="@item.Forsendelse" asp-items="@Model.carriersOptions" class="form-control"></select>
                     <span asp-validation-for="@item.Forsendelse" class="text-danger"></span>
                 </div>
                 <div class="form-group form-check">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="@item.Print" class="control-label"></label>
-                    <input asp-for="@item.Print" class="form-control" />
+                    <select asp-for="@item.Print" asp-items="@Model.printOptions" class="form-control"></select>
                     <span asp-validation-for="@item.Print" class="text-danger"></span>
                 </div>
             }

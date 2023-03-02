@@ -220,5 +220,41 @@ namespace Lager_dal
                 return e.ToString();
             }
         }
+
+        //get your print and carrer options
+        public string GetOptions()
+        {
+            try
+            {
+                SqlConnectionStringBuilder builder = new()
+                {
+                    DataSource = _ip,
+                    UserID = _user,
+                    Password = _password,
+                    InitialCatalog = _initialCatalog
+                };
+
+                using SqlConnection connection = new(builder.ConnectionString);
+                String sql = $"SELECT [Carriers], [Print] FROM [Options] FOR JSON AUTO;";
+
+
+                using SqlCommand command = new(sql, connection);
+                connection.Open();
+                var jsonResult = new StringBuilder();
+                SqlDataReader oReader = command.ExecuteReader();
+                while (oReader.Read())
+                {
+                    int i = 0;
+                    jsonResult.Append(oReader[i]);
+                    i++;
+                }
+                return jsonResult.ToString();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                return "";
+            }
+        }
     }
 }

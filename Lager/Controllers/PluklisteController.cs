@@ -81,6 +81,30 @@ namespace Lager.Controllers
             }
             finalModel.details = list;
 
+
+            OptionsModel optionsModel = new();
+            string getOptionsJson = pluklisteData.GetOptions();
+            List<OptionsModel> OptionList = JsonSerializer.Deserialize<List<OptionsModel>>(getOptionsJson)!;
+            List<SelectListItem> OptionSelectListPrint = new();
+            List<SelectListItem> OptionSelectListCarriers = new();
+            foreach (var item in OptionList)
+            {
+                OptionSelectListPrint.Add(new SelectListItem()
+                {
+                    Text = item.Print,
+                    Value = item.Print
+                });
+                OptionSelectListCarriers.Add(new SelectListItem()
+                {
+                    Text = item.Carriers,
+                    Value = item.Carriers
+                });
+                optionsModel.Carriers = item.Carriers;
+                optionsModel.Print = item.Print;
+                finalModel.printOptions = new SelectList(OptionSelectListPrint, "Value", "Text");
+                finalModel.carriersOptions = new SelectList(OptionSelectListCarriers, "Value", "Text");
+            }
+
             Kundedata kundeData = new();
             KundeModel kundeModel = new();
             string getCustomerJson = kundeData.GetCustomers();
@@ -96,6 +120,9 @@ namespace Lager.Controllers
                 kundeModel.KundeID = item.KundeID;
                 finalModel.customer = new SelectList(kundeList1, "Value", "Text");
             }
+
+
+
             return View(finalModel);
         }
 
