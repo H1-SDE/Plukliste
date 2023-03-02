@@ -2,7 +2,7 @@
 @model dynamic
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Plukliste";
 }
 
 @foreach (var item in Model.plukliste)
@@ -18,7 +18,7 @@
         }
     </style>
     <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <h1>Details</h1>
+        <h1>Plukliste</h1>
         <div class="box1">
             <h2 class="auto">@Html.DisplayNameForInnerType((PluklisteFrontModel pluklisteFrontModel) => pluklisteFrontModel.FakturaNummer)</h2>
             <p class="auto">@item.FakturaNummer</p>
@@ -93,3 +93,7 @@
         }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
